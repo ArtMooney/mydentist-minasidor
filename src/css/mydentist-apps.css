@@ -1,0 +1,423 @@
+p {
+  margin-bottom: 10px;
+  font-size: 76%;
+}
+
+a {
+  text-decoration: underline;
+}
+
+.column {
+  outline-offset: 0px;
+  color: #8f8f8f;
+  background-color: #fff;
+  outline: 1px solid rgba(190, 190, 190, 0.25);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+  display: flex;
+  position: relative;
+}
+
+.column.left {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.column.right {
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: #9b1373;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+
+.column.dropdown {
+  z-index: 1;
+  max-height: 16rem;
+  min-width: 50%;
+  border-radius: 0.5rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem 0;
+  position: absolute;
+  top: 90%;
+  bottom: auto;
+  left: 3%;
+  right: auto;
+  overflow: auto;
+}
+
+.bokningswidget-wrapper {
+  width: 100%;
+  height: 8rem;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  border-radius: 1rem;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
+  display: grid;
+  position: relative;
+  box-shadow: 4px 4px 15px 4px rgba(0, 0, 0, 0.12);
+}
+
+.text-large {
+  color: #757575;
+  text-align: center;
+  font-family: Fororounded, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 2.1rem;
+}
+
+.hover-layer {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s;
+  display: flex;
+}
+
+.hover-layer:hover {
+  transform: scale(1.1);
+}
+
+.hover-background {
+  z-index: -1;
+  transform-style: preserve-3d;
+  background-color: #f5f2f2;
+  transition: all 0.2s;
+  position: absolute;
+  top: 0%;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+  transform: translate(0, 50%) scale3d(1, 0, 1);
+}
+
+.hover-background:hover {
+  transform: translate(0) scale(1);
+}
+
+.list-item {
+  width: 100%;
+  padding: 0.3rem 1rem;
+}
+
+.list-item:hover {
+  background-color: #f7f7f7;
+}
+
+.mydentist-app {
+  background-color: #fff;
+  flex-direction: column;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 1rem 2rem;
+  display: flex;
+  position: relative;
+}
+
+.bokningsui-wrapper {
+  width: 90%;
+  max-width: 1280px;
+  min-height: 30rem;
+  grid-column-gap: 2rem;
+  grid-row-gap: 2rem;
+  grid-template-rows: 5rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: row;
+  display: grid;
+  position: relative;
+}
+
+.calendar-wrapper {
+  width: 25rem;
+  height: 25rem;
+  background-color: #f7f7f7;
+  padding: 2rem;
+}
+
+.times-container {
+  flex-direction: column;
+  display: flex;
+}
+
+.times-wrapper {
+  flex: 1;
+}
+
+.time-block {
+  width: 100%;
+  min-height: 4.5rem;
+  background-color: #f7f7f7;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 1.5rem 3.5rem 1.5rem 1rem;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+  transition: height 0.2s;
+  position: relative;
+}
+
+.text-heading {
+  color: #5f5f5f;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Fororounded, sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 2.4rem;
+}
+
+.minasidor-wrapper {
+  width: 90%;
+  max-width: 1280px;
+  min-height: 30rem;
+  grid-column-gap: 2rem;
+  grid-row-gap: 2rem;
+  grid-template-rows: 5rem;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: row;
+  display: grid;
+  position: relative;
+}
+
+.block-title {
+  color: #9b1373;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.time-block-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 1.4rem;
+  bottom: 0%;
+  left: auto;
+  right: 0.7rem;
+}
+
+@media screen and (max-width: 991px) {
+  .column {
+    font-size: 0.7rem;
+    line-height: 1.2rem;
+  }
+
+  .column.right {
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+  }
+
+  .column.dropdown {
+    max-height: 12rem;
+  }
+
+  .text-large {
+    font-size: 1.2rem;
+    line-height: 1.7rem;
+  }
+
+  .bokningsui-wrapper {
+    width: 100%;
+  }
+
+  .calendar-wrapper {
+    width: 18rem;
+    height: 18rem;
+    padding: 1rem;
+  }
+
+  .text-heading {
+    font-size: 1.6rem;
+    line-height: 2.1rem;
+  }
+
+  .minasidor-wrapper {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .text-large {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .bokningsui-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .text-heading {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .minasidor-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .column {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .column.left {
+    border-top-right-radius: 1.2rem;
+    border-bottom-left-radius: 0;
+  }
+
+  .column.right {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 1.2rem;
+  }
+
+  .column.dropdown {
+    z-index: 1;
+    bottom: auto;
+  }
+
+  .bokningswidget-wrapper {
+    height: auto;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+  }
+
+  .bokningsui-wrapper,
+  .minasidor-wrapper {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+}
+
+#w-node-_051a9b96-4ead-e118-8a59-194af47cb073-1e7ebdbe {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+}
+
+#w-node-_0ce87386-09bd-15c0-b072-0835fb14c6cc-1e7ebdbe,
+#w-node-_91f649a3-bb70-a795-b83a-2447edc0e2f4-1e7ebdbe,
+#w-node-cddf50a4-4c92-fe6b-0172-49fec9704d62-1e7ebdbe,
+#w-node-_15d05f01-d5c1-4387-6d10-54988da43617-1e7ebdbe {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+  align-self: stretch;
+  justify-self: stretch;
+}
+
+#w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-1e7ebdbe {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+}
+
+#w-node-_4bdeeea9-8aa6-fb9b-74fc-6d0ad61cef22-1e7ebdbe {
+  grid-area: 1 / 2 / 2 / 4;
+  align-self: end;
+  justify-self: start;
+}
+
+#w-node-_075489b7-6c6c-6ec9-e029-891a2b37312e-1e7ebdbe {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+#w-node-_67bf3200-704d-3b6e-f47e-d3936cd845e7-1e7ebdbe {
+  grid-area: span 1 / span 2 / span 1 / span 2;
+}
+
+#w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-2190bb79 {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+}
+
+#w-node-_7774ae3b-e687-287a-81f9-e752ccf6179e-2190bb79,
+#w-node-_4bdeeea9-8aa6-fb9b-74fc-6d0ad61cef22-2190bb79 {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+  align-self: end;
+  justify-self: start;
+}
+
+#w-node-_67bf3200-704d-3b6e-f47e-d3936cd845e7-2190bb79,
+#w-node-_26a306be-2192-95d0-49da-c3d6cf12b93a-2190bb79 {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+}
+
+@media screen and (max-width: 767px) {
+  #w-node-_4bdeeea9-8aa6-fb9b-74fc-6d0ad61cef22-1e7ebdbe {
+    grid-area: span 1 / span 1 / span 1 / span 1;
+    justify-self: center;
+  }
+
+  #w-node-_075489b7-6c6c-6ec9-e029-891a2b37312e-1e7ebdbe {
+    grid-area: span 1 / span 1 / span 1 / span 1;
+    align-self: center;
+    justify-self: center;
+  }
+
+  #w-node-_67bf3200-704d-3b6e-f47e-d3936cd845e7-1e7ebdbe {
+    grid-column: span 1 / span 1;
+    align-self: stretch;
+    justify-self: stretch;
+  }
+
+  #w-node-_7774ae3b-e687-287a-81f9-e752ccf6179e-2190bb79,
+  #w-node-_4bdeeea9-8aa6-fb9b-74fc-6d0ad61cef22-2190bb79 {
+    grid-area: span 1 / span 1 / span 1 / span 1;
+    justify-self: center;
+  }
+
+  #w-node-_67bf3200-704d-3b6e-f47e-d3936cd845e7-2190bb79,
+  #w-node-_26a306be-2192-95d0-49da-c3d6cf12b93a-2190bb79 {
+    grid-column: span 1 / span 1;
+    align-self: stretch;
+    justify-self: stretch;
+  }
+}
+
+@font-face {
+  font-family: "Fororounded";
+  src: url("../fonts/ForoRounded-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fororounded";
+  src: url("../fonts/ForoRounded-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fororounded";
+  src: url("../fonts/ForoRounded-Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fororounded";
+  src: url("../fonts/ForoRounded-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
