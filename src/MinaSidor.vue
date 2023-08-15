@@ -16,63 +16,56 @@
       >
         Min journal
       </h1>
-      <div
-        id="w-node-_67bf3200-704d-3b6e-f47e-d3936cd845e7-2190bb79"
-        class="times-container"
-      >
-        <div class="times-wrapper">
-          <div class="time-block">
-            <div class="block-title">DD / MM - YY : MM : Undersökning</div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at
-              sagittis purus. Proin tincidunt lacus quis justo fermentum, non
-              vestibulum dui pellentesque. Nullam auctor justo vel elit
-              consectetur, a pulvinar nibh vestibulum. Sed non consequat purus.
-              Nulla facilisi. Nunc volutpat arcu a libero sollicitudin, eu
-              consequat lectus faucibus. Sed euismod, libero sed tincidunt
-              congue, elit elit bibendum elit, ut condimentum odio augue id
-              quam. Nulla facilisi.
-            </div>
-            <img
-              :src="base64svg(minus)"
-              loading="lazy"
-              alt=""
-              class="time-block-icon"
-            />
+
+      <div class="times-wrapper">
+        <div
+          class="time-block"
+          @click="handleTimeblockLeft(index)"
+          v-for="(entry, index) of listBookings.data"
+          :key="index"
+        >
+          <div class="block-title">
+            {{ formattedDate(entry.attributes.dtend) }}
           </div>
-          <div class="time-block">
-            <div class="block-title">DD / MM - YY : MM : Tandblekning</div>
-            <img
-              :src="base64svg(plus)"
-              loading="lazy"
-              alt=""
-              class="time-block-icon"
-            />
+          <img
+            :src="index === showItemLeft ? base64svg(minus) : base64svg(plus)"
+            alt=""
+            class="time-block-icon"
+          />
+          <div
+            class="time-block-content-wrapper"
+            :class="{ active: index === showItemLeft }"
+          >
+            <div class="time-block-content">
+              Plats: {{ entry.attributes.location }} <br />
+              Pris: {{ entry.attributes.price }} <br />
+              Information: {{ entry.attributes.text }}
+            </div>
           </div>
         </div>
       </div>
-      <div
-        id="w-node-_26a306be-2192-95d0-49da-c3d6cf12b93a-2190bb79"
-        class="times-container"
-      >
-        <div class="times-wrapper">
-          <div class="time-block">
-            <div class="block-title">DD / MM - YY : MM : Tandblekning</div>
-            <img
-              :src="base64svg(plus)"
-              loading="lazy"
-              alt=""
-              class="time-block-icon"
-            />
+
+      <div class="times-wrapper">
+        <div
+          class="time-block"
+          @click="handleTimeblockRight(index)"
+          v-for="(entry, index) of listJournalEntries.data"
+          :key="index"
+        >
+          <div class="block-title">
+            {{ formattedDate(entry.attributes.signed_at) }} :
+            {{ entry.attributes.entry_type }}
           </div>
-          <div class="time-block">
-            <div class="block-title">DD / MM - YY : MM : Tandblekning</div>
-            <img
-              :src="base64svg(plus)"
-              loading="lazy"
-              alt=""
-              class="time-block-icon"
-            />
+          <img
+            :src="index === showItemRight ? base64svg(minus) : base64svg(plus)"
+            alt=""
+            class="time-block-icon"
+          />
+          <div
+            class="time-block-content-wrapper"
+            :class="{ active: index === showItemRight }"
+          >
+            <div class="time-block-content">{{ entry.attributes.text }}</div>
           </div>
         </div>
       </div>
@@ -90,22 +83,14 @@ export default {
   data() {
     return {
       apiBaseUrl: "https://api.ngine.se/webhook/mydentist/",
-      getListClinics: "get-clinics",
-      getListProcedures: "get-procedures",
-      getListCaregivers: "get-caregivers",
-      getListBookings: "get-bookings",
+      getJournalEntries: "get-journal-entries",
+      getBookings: "bookings",
       userName: "XkehuCfMZ!hU%8h=",
       userPass: "QH5EV=2hNc*LFjJd",
-      dropdownClinics: false,
-      dropdownProcedures: false,
-      dropdownCaregivers: false,
-      chosenClinic: "-",
-      chosenProcedure: "-",
-      chosenCaregiver: "-",
-      listClinics: [],
-      listProcedures: [],
-      listCaregivers: [],
+      listJournalEntries: [],
       listBookings: [],
+      showItemLeft: false,
+      showItemRight: false,
       plus: plus,
       minus: minus,
     };
@@ -114,21 +99,18 @@ export default {
   async created() {
     console.clear();
 
-    this.listClinics = await this.getApiData(
-      this.apiBaseUrl + this.getListClinics
+    this.listJournalEntries = await this.getApiData(
+      this.apiBaseUrl + this.getJournalEntries
     );
-    this.listProcedures = await this.getApiData(
-      this.apiBaseUrl + this.getListProcedures
-    );
-    this.listCaregivers = await this.getApiData(
-      this.apiBaseUrl + this.getListCaregivers
+    this.listBookings = await this.getApiData(
+      this.apiBaseUrl + this.getBookings
     );
 
-    // console.log("CLINICS", JSON.parse(JSON.stringify(this.listClinics)));
-    // console.log("PROCEDURES", JSON.parse(JSON.stringify(this.listProcedures)));
-    // console.log("CAREGIVERS", JSON.parse(JSON.stringify(this.listCaregivers)));
-
-    this.initQueries();
+    // console.log(
+    //   "JOURNAL ENTRIES",
+    //   JSON.parse(JSON.stringify(this.listJournalEntries))
+    // );
+    // console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
   },
 
   methods: {
@@ -158,126 +140,39 @@ export default {
       });
     },
 
-    handledropdownClinics() {
-      this.dropdownClinics = !this.dropdownClinics;
-
-      if (this.dropdownClinics) {
-        this.dropdownProcedures = false;
-        this.dropdownCaregivers = false;
-      }
-    },
-
-    handledropdownProcedures() {
-      this.dropdownProcedures = !this.dropdownProcedures;
-
-      if (this.dropdownProcedures) {
-        this.dropdownClinics = false;
-        this.dropdownCaregivers = false;
-      }
-    },
-
-    handledropdownCaregivers() {
-      this.dropdownCaregivers = !this.dropdownCaregivers;
-
-      if (this.dropdownCaregivers) {
-        this.dropdownClinics = false;
-        this.dropdownProcedures = false;
-      }
-    },
-
-    handleClinics(event) {
-      this.chosenClinic = event.target.innerText;
-      this.updateQueryString();
-    },
-
-    handleProcedures(event) {
-      this.chosenProcedure = event.target.innerText;
-      this.updateQueryString();
-    },
-
-    handleCaregivers(event) {
-      this.chosenCaregiver = event.target.innerText;
-      this.updateQueryString();
-    },
-
-    getQueryString() {
-      let queryString = "?";
-
-      if (this.chosenClinic && this.chosenClinic !== "-") {
-        queryString = queryString + "clinic=" + this.chosenClinic;
-      }
-
-      if (this.chosenProcedure && this.chosenProcedure !== "-") {
-        queryString = queryString !== "?" ? queryString + "&" : queryString;
-        queryString = queryString + "procedure=" + this.chosenProcedure;
-      }
-
-      if (this.chosenCaregiver && this.chosenCaregiver !== "-") {
-        queryString = queryString !== "?" ? queryString + "&" : queryString;
-        queryString = queryString + "caregiver=" + this.chosenCaregiver;
-      }
-
-      if (queryString === "?") queryString = "";
-
-      return queryString;
-    },
-
-    handleBooking() {
-      const queryString = this.getQueryString();
-
-      // window.location.href = "/boka" + queryString;
-      this.$router.push("/boka" + queryString);
-    },
-
-    updateQueryString() {
-      const url = window.location.href;
-      const searchString = "/boka";
-
-      // only update querystring if we are on the /boka page
-      if (url.indexOf(searchString) !== -1) {
-        const queryString = this.getQueryString();
-
-        history.pushState({}, "", "/boka" + queryString);
-      }
-    },
-
-    initQueries() {
-      const urlString = window.location.href;
-
-      if (urlString.indexOf("?") !== -1) {
-        const queryString = urlString.split("?")[1].split("&");
-
-        for (const [index, query] of queryString.entries()) {
-          queryString[index] = decodeURIComponent(query);
-        }
-
-        for (const query of queryString) {
-          const command = query.split("=");
-
-          if (command[0] === "clinic") {
-            this.chosenClinic = command[1];
-          }
-
-          if (command[0] === "procedure") {
-            this.chosenProcedure = command[1];
-          }
-
-          if (command[0] === "caregiver") {
-            this.chosenCaregiver = command[1];
-          }
-        }
-      }
-    },
-
     base64svg(image) {
       return `data:image/svg+xml;base64,${btoa(image)}`;
+    },
+
+    formattedDate(dateString) {
+      const date = new Date(dateString);
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return date.toLocaleDateString(undefined, options);
+    },
+
+    handleTimeblockLeft(index) {
+      this.showItemLeft = index;
+    },
+
+    handleTimeblockRight(index) {
+      this.showItemRight = index;
     },
   },
 };
 </script>
 
 <style scoped>
-.column {
-  user-select: none;
+.time-block-content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 200ms;
+}
+
+.time-block-content-wrapper.active {
+  grid-template-rows: 1fr;
+}
+
+.time-block-content {
+  overflow: hidden;
 }
 </style>
