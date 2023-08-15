@@ -151,11 +151,19 @@ export default {
     },
 
     handleTimeblockLeft(index) {
-      this.showItemLeft = index;
+      if (this.showItemLeft === index) {
+        this.showItemLeft = false;
+      } else {
+        this.showItemLeft = index;
+      }
     },
 
     handleTimeblockRight(index) {
-      this.showItemRight = index;
+      if (this.showItemRight === index) {
+        this.showItemRight = false;
+      } else {
+        this.showItemRight = index;
+      }
     },
   },
 };
