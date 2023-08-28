@@ -1,6 +1,6 @@
 <template>
   <div class="mydentist-app">
-    <button @click="startaBankId">Starta BankId</button>
+    <!-- <button @click="startaBankId">Starta BankId</button> -->
 
     <div
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-2190bb79"
