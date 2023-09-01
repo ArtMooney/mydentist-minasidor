@@ -1,7 +1,5 @@
 <template>
   <div class="mydentist-app">
-    <!-- <button @click="startaBankId">Starta BankId</button> -->
-
     <div
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-2190bb79"
       class="minasidor-wrapper"
@@ -145,36 +143,6 @@ export default {
       });
     },
 
-    postApiData(urlEndpoint, data) {
-      return new Promise((resolve, reject) => {
-        var requestOptions = {
-          method: "POST",
-          headers: {
-            // Accept: "*/*",
-            // "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-          },
-
-          body: data,
-          redirect: "follow",
-        };
-
-        fetch(urlEndpoint, requestOptions)
-          .then((response) => {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then((result) => {
-            console.log(result);
-            resolve(result);
-          })
-          .catch((error) => {
-            console.log(error);
-            reject(error);
-          });
-      });
-    },
-
     base64svg(image) {
       return `data:image/svg+xml;base64,${btoa(image)}`;
     },
@@ -199,54 +167,6 @@ export default {
       } else {
         this.showItemRight = index;
       }
-    },
-
-    async startaBankId() {
-      const token = "";
-      const redirect = "";
-
-      const res = await fetch("https://api.ipify.org?format=json");
-      const ip = await res.json();
-      // this.extraFields.clientip = ip.ip;
-
-      console.log("IP", ip.ip);
-
-      // postApiData(urlEndpoint, data) {
-
-      // const data = {
-      //   endUserIp: ip.ip,
-      // };
-
-      const data = {
-        endUserIp: "192.168.134.213",
-      };
-
-      const neger = await this.postApiData(
-        "https://appapi2.test.bankid.com/rp/v6.0/auth",
-        data
-      );
-
-      // console.log(neger);
-
-      // window.location.href = `bankid:///?autostarttoken=${token}&redirect=${redirect}`;
-    },
-
-    async startBankId() {
-      const client = new BankIdClient();
-      // const pno = "200008102394";
-
-      // const res = await fetch("https://api.ipify.org?format=json");
-      // const ip = await res.json();
-
-      // console.log("IP", ip.ip);
-
-      // client
-      //   .authenticateAndCollect({
-      //     personalNumber: pno,
-      //     endUserIp: ip.ip,
-      //   })
-      //   .then((res) => console.log(res.completionData))
-      //   .catch(console.error);
     },
   },
 };
