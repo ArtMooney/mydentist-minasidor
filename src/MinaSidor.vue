@@ -113,6 +113,7 @@ export default {
     //   "JOURNAL ENTRIES",
     //   JSON.parse(JSON.stringify(this.listJournalEntries))
     // );
+
     // console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
   },
 
