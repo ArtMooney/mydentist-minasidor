@@ -1,3 +1,8 @@
+<style scoped>
+@import "./css/components.css";
+@import "./css/mydentist-apps.css";
+</style>
+
 <template>
   <div class="mydentist-app">
     <div
@@ -74,14 +79,11 @@
 </template>
 
 <script>
-import { BankIdClient } from "bankid";
-
 import plus from "./images/plus.svg?raw";
 import minus from "./images/minus.svg?raw";
 
 export default {
   name: "Home",
-  components: { BankIdClient },
 
   data() {
     return {
@@ -109,12 +111,12 @@ export default {
       this.apiBaseUrl + this.getBookings
     );
 
-    // console.log(
-    //   "JOURNAL ENTRIES",
-    //   JSON.parse(JSON.stringify(this.listJournalEntries))
-    // );
+    console.log(
+      "JOURNAL ENTRIES",
+      JSON.parse(JSON.stringify(this.listJournalEntries))
+    );
 
-    // console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
+    console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
   },
 
   methods: {

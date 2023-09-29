@@ -7,7 +7,7 @@ a {
   text-decoration: underline;
 }
 
-.column {
+.bokningswidget-column {
   outline-offset: 0px;
   color: #8f8f8f;
   background-color: #fff;
@@ -24,12 +24,12 @@ a {
   position: relative;
 }
 
-.column.left {
+.bokningswidget-column.left {
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
 }
 
-.column.right {
+.bokningswidget-column.right {
   color: #fff;
   text-align: center;
   text-transform: uppercase;
@@ -41,8 +41,21 @@ a {
   line-height: 1.5rem;
 }
 
-.column.dropdown {
-  z-index: 1;
+.bokningswidget-column.list-popup {
+  max-height: 100%;
+  max-width: 30rem;
+  min-width: 30rem;
+  outline-offset: 0px;
+  background-color: rgba(0, 0, 0, 0);
+  outline: 1px rgba(190, 190, 190, 0.25);
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0;
+  overflow: hidden;
+}
+
+.bokningswidget-column.dropdown {
+  z-index: 10;
   max-height: 16rem;
   min-width: 50%;
   border-radius: 0.5rem;
@@ -62,6 +75,7 @@ a {
   height: 8rem;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  text-align: left;
   border-radius: 1rem;
   grid-template-rows: auto;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -111,17 +125,9 @@ a {
   transform: translate(0) scale(1);
 }
 
-.list-item {
-  width: 100%;
-  padding: 0.3rem 1rem;
-}
-
-.list-item:hover {
-  background-color: #f7f7f7;
-}
-
 .mydentist-app {
-  background-color: #fff;
+  width: 100%;
+  text-align: center;
   flex-direction: column;
   grid-template-rows: auto;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -131,6 +137,12 @@ a {
   padding: 1rem 1rem 2rem;
   display: flex;
   position: relative;
+}
+
+.mydentist-app.userreviews {
+  background-color: rgba(0, 0, 0, 0);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .bokningsui-wrapper {
@@ -172,12 +184,14 @@ a {
 }
 
 .time-block {
+  text-align: left;
   background-color: #f7f7f7;
   border-radius: 0.5rem;
   grid-template-rows: auto;
   grid-template-columns: 1fr;
   grid-auto-rows: 1fr;
   grid-auto-columns: 1fr;
+  align-self: stretch;
   padding: 1.8rem 3.5rem 1.5rem 1rem;
   font-family: Fororounded, sans-serif;
   font-size: 0.9rem;
@@ -233,18 +247,409 @@ a {
   overflow: hidden;
 }
 
+.userreviews-wrapper {
+  width: 90%;
+  max-width: 1280px;
+  grid-column-gap: 1rem;
+  grid-row-gap: 3rem;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: row;
+  display: grid;
+  position: relative;
+}
+
+.userreviews-wrapper.vertical {
+  grid-row-gap: 1.5rem;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
+}
+
+.review-block {
+  min-height: 16.8rem;
+  background-color: #ccbcaa;
+  border-radius: 0.5rem;
+  flex-direction: column;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-auto-columns: 1fr;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 1.5rem;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+  display: flex;
+  position: relative;
+}
+
+.review-block.vertical {
+  min-height: 0;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  background-color: #ede7e2;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr auto;
+  grid-auto-columns: 1fr;
+  display: grid;
+}
+
+.review-name-title {
+  text-align: left;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.9rem;
+}
+
+.review-comment {
+  text-align: left;
+  margin-bottom: 0.3rem;
+  font-style: italic;
+}
+
+.review-star {
+  width: 1rem;
+}
+
+.review-score-wrapper {
+  text-align: left;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.review-score-wrapper.vertical {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 2rem;
+}
+
+.button-userreviews {
+  color: #000;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 0.8rem;
+  margin-top: 3rem;
+  padding: 0.9rem 4rem 0.6rem;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.4rem;
+  text-decoration: none;
+}
+
+.list-popup-wrapper {
+  z-index: 2147483647;
+  height: 100vh;
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.75);
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  position: fixed;
+  top: 0%;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+}
+
+.popup-top-menu {
+  width: 100%;
+  color: #fff;
+  background-color: #9b1373;
+  border-radius: 1rem 1rem 0 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.9rem;
+  display: flex;
+  position: relative;
+}
+
+.list-scroll {
+  width: 100%;
+  background-color: #fff;
+  overflow: auto;
+}
+
+.popup-footer {
+  width: 100%;
+  height: 1rem;
+  background-color: #efe7e1;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.popup-list-item {
+  color: #000;
+  background-color: #efe7e1;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-auto-columns: 1fr;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.4rem 1rem;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+  display: flex;
+  position: relative;
+}
+
+.popup-list-item:hover {
+  background-color: #e4d7ce;
+}
+
+.popup-item-title {
+  color: #9b1373;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.7rem;
+}
+
+.popup-title-icon-wrapper {
+  width: 100%;
+  height: 2.5rem;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.popup-tooth-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-bottom: 0.3rem;
+  margin-right: 0.7rem;
+}
+
+.popup-close-icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  cursor: pointer;
+  margin-bottom: 0.4rem;
+  transition: transform 0.3s;
+}
+
+.popup-close-icon:hover {
+  transform: scale(1.15) rotate(90deg);
+}
+
+.popup-title-wrapper {
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.search-input {
+  color: #707070;
+  background-color: #fff;
+  border-radius: 0.7rem;
+  margin-bottom: 0;
+  padding: 0.6rem 1rem 0.5rem 2.3rem;
+}
+
+.search-wrapper {
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.search-icon {
+  width: 1rem;
+  color: #000;
+  font-size: 1rem;
+  position: absolute;
+  top: 0.7rem;
+  bottom: 0%;
+  left: 0.6rem;
+  right: auto;
+}
+
+.utility-page-wrap {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100%;
+  max-width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.utility-page-content {
+  width: 260px;
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+}
+
+.utility-page-form {
+  flex-direction: column;
+  align-items: stretch;
+  display: flex;
+}
+
+.search-container {
+  width: 100%;
+  height: 2.5rem;
+  margin-top: 0.5rem;
+}
+
+.caregiver-avatar {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  background-color: #e4d7ce;
+  border-radius: 0.7rem;
+  margin-right: 1rem;
+}
+
+.caregiver-avatar:hover {
+  background-color: #efe7e1;
+}
+
+.list-item {
+  width: 100%;
+  padding: 0.3rem 1rem;
+}
+
+.mydentist-map-wrapper {
+  grid-column-gap: 2rem;
+  grid-row-gap: 2rem;
+  color: #303030;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: row;
+  align-self: stretch;
+  display: grid;
+  position: relative;
+}
+
+.map-contact-block {
+  cursor: pointer;
+  background-color: #ede7e2;
+  border-radius: 0.5rem;
+  flex-direction: row;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-auto-columns: 1fr;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+  transition: transform 0.3s;
+  display: flex;
+  position: relative;
+}
+
+.map-contact-block:hover {
+  background-color: #d6c9b8;
+  transform: scale(1.025);
+}
+
+.map-contact-title {
+  text-align: left;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.9rem;
+}
+
+.map-contact-text {
+  text-align: left;
+}
+
+.map-arrow-right {
+  width: 1rem;
+  cursor: pointer;
+}
+
+.map-object {
+  min-height: 35rem;
+  background-color: #ede7e2;
+  border-radius: 0.5rem;
+  flex-direction: row;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-auto-columns: 1fr;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-link {
+  color: #303030;
+  text-decoration: none;
+}
+
+.map-link:visited {
+  color: #9b1373;
+}
+
+.review-title-wrapper {
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.verified-icon {
+  margin-right: 0.3rem;
+}
+
+.verified-icon.horizontal {
+  margin-left: 0;
+}
+
+.text-review-verifierad {
+  text-align: left;
+  font-size: 0.8rem;
+  line-height: 1.3rem;
+}
+
+.verified-wrapper {
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 1rem;
+  display: flex;
+}
+
+.verified-wrapper.horizontal {
+  padding-left: 0;
+}
+
 @media screen and (max-width: 991px) {
-  .column {
+  .bokningswidget-column {
     font-size: 0.7rem;
     line-height: 1.2rem;
   }
 
-  .column.right {
+  .bokningswidget-column.right {
     font-size: 0.8rem;
     line-height: 1.3rem;
   }
 
-  .column.dropdown {
+  .bokningswidget-column.dropdown {
     max-height: 12rem;
   }
 
@@ -268,12 +673,35 @@ a {
     line-height: 2.1rem;
   }
 
-  .minasidor-wrapper {
+  .minasidor-wrapper,
+  .userreviews-wrapper {
     width: 100%;
+  }
+
+  .review-name-title,
+  .popup-top-menu {
+    font-size: 1.2rem;
+    line-height: 1.7rem;
+  }
+
+  .mydentist-map-wrapper {
+    width: 100%;
+  }
+
+  .map-contact-title {
+    font-size: 1.2rem;
+    line-height: 1.7rem;
   }
 }
 
 @media screen and (max-width: 767px) {
+  .bokningswidget-column.list-popup {
+    max-width: 100%;
+    min-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .text-large {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -292,26 +720,79 @@ a {
   .minasidor-wrapper {
     grid-template-columns: 1fr;
   }
+
+  .userreviews-wrapper {
+    grid-row-gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .review-block {
+    min-height: 14rem;
+  }
+
+  .review-name-title {
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+  }
+
+  .review-score-wrapper.vertical {
+    padding-left: 1rem;
+  }
+
+  .popup-top-menu,
+  .popup-item-title {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .caregiver-avatar {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .mydentist-map-wrapper {
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .map-contact-title {
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+  }
+
+  .map-object {
+    min-height: 18rem;
+  }
+
+  .review-title-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .verified-wrapper {
+    padding-left: 0;
+  }
 }
 
 @media screen and (max-width: 479px) {
-  .column {
+  .bokningswidget-column {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
 
-  .column.left {
+  .bokningswidget-column.left {
     border-top-right-radius: 1.2rem;
     border-bottom-left-radius: 0;
   }
 
-  .column.right {
+  .bokningswidget-column.right {
     border-top-right-radius: 0;
     border-bottom-left-radius: 1.2rem;
   }
 
-  .column.dropdown {
-    z-index: 1;
+  .bokningswidget-column.list-popup,
+  .bokningswidget-column.dropdown {
     bottom: auto;
   }
 
@@ -324,6 +805,34 @@ a {
 
   .bokningsui-wrapper,
   .minasidor-wrapper {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .userreviews-wrapper {
+    grid-row-gap: 1rem;
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .review-block {
+    min-height: 12rem;
+  }
+
+  .review-block.vertical {
+    grid-template-columns: 1fr;
+  }
+
+  .review-score-wrapper.vertical {
+    padding-left: 0;
+  }
+
+  .caregiver-avatar {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .mydentist-map-wrapper {
     grid-template-columns: 1fr;
     grid-auto-rows: auto;
   }
@@ -378,6 +887,31 @@ a {
   grid-area: span 1 / span 2 / span 1 / span 2;
 }
 
+#w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-66a39b36,
+#w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-ff84f577 {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+}
+
+#w-node-_43e78301-f4e5-c172-1fbb-c71ce5cf950c-ff84f577,
+#w-node-f164f0d0-58c8-f834-728d-4a959bb70a25-ff84f577,
+#w-node-_1fae3cab-8747-3ddc-498c-d9b268dfeec6-ff84f577 {
+  align-self: start;
+  justify-self: end;
+}
+
+#w-node-_9e6dbf64-1d85-6119-4830-a3051c3a009b-ff84f577 {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+  justify-self: center;
+}
+
+#w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-d6f42258 {
+  grid-area: span 1 / span 1 / span 1 / span 1;
+}
+
+#w-node-c1e16b27-3ac3-2b73-8954-fb158ca29dfc-d6f42258 {
+  grid-area: span 1 / span 2 / span 1 / span 2;
+}
+
 @media screen and (max-width: 767px) {
   #w-node-_7774ae3b-e687-287a-81f9-e752ccf6179e-2190bb79 {
     grid-area: 1 / 1 / 2 / 2;
@@ -412,6 +946,18 @@ a {
     grid-column: span 1 / span 1;
     align-self: stretch;
     justify-self: stretch;
+  }
+
+  #w-node-c1e16b27-3ac3-2b73-8954-fb158ca29dfc-d6f42258 {
+    grid-column: span 1 / span 1;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  #w-node-_43e78301-f4e5-c172-1fbb-c71ce5cf950c-ff84f577,
+  #w-node-f164f0d0-58c8-f834-728d-4a959bb70a25-ff84f577,
+  #w-node-_1fae3cab-8747-3ddc-498c-d9b268dfeec6-ff84f577 {
+    justify-self: start;
   }
 }
 

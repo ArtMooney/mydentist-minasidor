@@ -1,14 +1,5 @@
-<style>
-@import "./css/components.css";
-@import "./css/mydentist-apps.css";
-</style>
-
 <template>
   <MinaSidor />
-
-  <!-- <div>
-    <router-view />
-  </div> -->
 </template>
 
 <script>
