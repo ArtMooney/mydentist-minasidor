@@ -32,11 +32,13 @@
           <div class="block-title">
             {{ formattedDate(entry.attributes.dtend) }}
           </div>
-          <img
-            :src="index === showItemLeft ? base64svg(minus) : base64svg(plus)"
-            alt=""
+          <minus
+            v-if="index === showItemLeft"
+            style="color: #9b1373"
             class="time-block-icon"
           />
+          <plus v-else style="color: #9b1373" class="time-block-icon" />
+
           <div
             class="time-block-content-wrapper"
             :class="{ active: index === showItemLeft }"
@@ -61,11 +63,12 @@
             {{ formattedDate(entry.attributes.signed_at) }} :
             {{ entry.attributes.entry_type }}
           </div>
-          <img
-            :src="index === showItemRight ? base64svg(minus) : base64svg(plus)"
-            alt=""
+          <minus
+            v-if="index === showItemRight"
+            style="color: #9b1373"
             class="time-block-icon"
           />
+          <plus v-else style="color: #9b1373" class="time-block-icon" />
           <div
             class="time-block-content-wrapper"
             :class="{ active: index === showItemRight }"
@@ -79,11 +82,12 @@
 </template>
 
 <script>
-import plus from "./images/plus.svg?raw";
-import minus from "./images/minus.svg?raw";
+import plus from "./images/plus.vue";
+import minus from "./images/minus.vue";
 
 export default {
-  name: "Home",
+  name: "MinaSidor",
+  components: { plus, minus },
 
   data() {
     return {
@@ -96,8 +100,6 @@ export default {
       listBookings: [],
       showItemLeft: false,
       showItemRight: false,
-      plus: plus,
-      minus: minus,
     };
   },
 
@@ -144,10 +146,6 @@ export default {
             reject(error);
           });
       });
-    },
-
-    base64svg(image) {
-      return `data:image/svg+xml;base64,${btoa(image)}`;
     },
 
     formattedDate(dateString) {
