@@ -96,12 +96,14 @@ export default {
       console.log("START BANKID");
 
       const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
-      const returnUrl = "https://www.framecore.se";
+      const returnUrl = "https://www.ngine.se";
       console.log(token.autoStartToken);
 
+      // desktop browsers
       // window.location.href =
       //   "bankid:///?autostarttoken=[TOKEN]&redirect=[RETURNURL]";
 
+      // mobile browsers
       window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
     },
   },
