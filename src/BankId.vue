@@ -34,6 +34,7 @@
           value="Logga in"
           data-wait="Var god vänta..."
           class="bankid-login w-button"
+          @click="startBankId"
         />
 
         <div class="w-form-done">
@@ -89,6 +90,16 @@ export default {
             reject(error);
           });
       });
+    },
+
+    startBankId() {
+      console.log("START BANKID");
+
+      // window.location.href =
+      //   "bankid:///?autostarttoken=[TOKEN]&redirect=[RETURNURL]";
+
+      window.location.href =
+        "https://app.bankid.com/?autostarttoken=[TOKEN]&redirect=[RETURNURL]";
     },
   },
 
