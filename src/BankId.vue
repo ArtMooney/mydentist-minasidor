@@ -92,14 +92,17 @@ export default {
       });
     },
 
-    startBankId() {
+    async startBankId() {
       console.log("START BANKID");
+
+      const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
+      const returnUrl = "https://www.framecore.se";
+      console.log(token.autoStartToken);
 
       // window.location.href =
       //   "bankid:///?autostarttoken=[TOKEN]&redirect=[RETURNURL]";
 
-      window.location.href =
-        "https://app.bankid.com/?autostarttoken=[TOKEN]&redirect=[RETURNURL]";
+      window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
     },
   },
 
