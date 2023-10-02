@@ -17,7 +17,7 @@
         <div>Person-/Organisationsnummer</div>
 
         <div class="bankid-input-wrapper">
-          <userSolid style="color: #193e50" class="bankid-input-user" />
+          <userSolid style="color: #9b1473" class="bankid-input-user" />
           <input
             type="number"
             class="bankid-input w-input"

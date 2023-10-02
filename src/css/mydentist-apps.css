@@ -639,7 +639,6 @@ a {
 
 .bankid-login-wrapper {
   width: 40rem;
-  border: 0.1rem solid #1a3f51;
   border-radius: 0.5rem;
   padding: 2rem;
   font-family: Fororounded, sans-serif;
@@ -662,10 +661,11 @@ a {
 
 .bankid-input {
   height: 3rem;
-  border: 0.1rem solid #1a3f51;
+  border: 0.1rem solid #9b1373;
   border-radius: 0.3rem;
   margin-top: 0.5rem;
   padding: 0.7rem 1rem 0.5rem 2rem;
+  font-family: Fororounded, sans-serif;
   font-size: 1rem;
   line-height: 1.5rem;
 }
@@ -677,15 +677,16 @@ a {
 .bankid-login {
   width: 100%;
   height: 3rem;
-  background-color: #1a3f51;
+  background-color: #9b1373;
   border-radius: 0.3rem;
+  font-family: Fororounded, sans-serif;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5rem;
 }
 
 .bankid-login:hover {
-  background-color: #35647a;
+  background-color: #b12788;
 }
 
 .bankid-input-wrapper {
@@ -902,7 +903,16 @@ a {
     height: 3rem;
   }
 
-  .mydentist-map-wrapper,
+  .mydentist-map-wrapper {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .bankid-login-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .bankid-login-container {
     grid-template-columns: 1fr;
     grid-auto-rows: auto;
