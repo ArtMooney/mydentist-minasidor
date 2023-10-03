@@ -76,7 +76,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.1.3",
+      message: "Test v0.1.4",
     };
   },
 
@@ -170,8 +170,12 @@ export default {
 
     stopBankidCollect() {
       clearInterval(this.collectInterval);
-      localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
-      localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
+
+      setTimeout(() => {
+        localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
+        localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
+        this.message = "CLEARED";
+      }, 1000);
     },
 
     authorizeMinaSidor(collect) {
