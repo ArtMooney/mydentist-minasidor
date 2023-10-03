@@ -5,6 +5,7 @@
 
 <template>
   <div class="mydentist-app">
+    <h3 style="background-color: coral">{{ message }}</h3>
     <div
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-4be37fed"
       class="bankid-login-container"
@@ -62,6 +63,7 @@ export default {
       userName: "XkehuCfMZ!hU%8h=",
       userPass: "QH5EV=2hNc*LFjJd",
       personNummer: null,
+      message: "",
     };
   },
 
@@ -102,11 +104,13 @@ export default {
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         // This is a mobile device
         console.log("Mobile device detected");
+        this.message = "Mobile device detected";
 
         // window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       } else {
         // This is a desktop device
         console.log("Desktop device detected");
+        this.message = "Desktop device detected";
 
         // window.location.href = `bankid:///?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       }
