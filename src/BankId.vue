@@ -76,7 +76,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.3",
+      message: "Test v0.0.4",
     };
   },
 
@@ -120,8 +120,8 @@ export default {
 
     async startBankId() {
       const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
-      const returnUrl = window.location.href;
-      // const returnUrl = "";
+      // const returnUrl = window.location.href;
+      const returnUrl = "";
 
       this.startBankidCollect(token);
 
@@ -153,6 +153,7 @@ export default {
         if (collect.status === "complete") {
           this.stopBankidCollect();
           localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "complete");
+
           this.authorizeMinaSidor(collect);
         } else if (collect.status === "failed") {
           this.stopBankidCollect();
