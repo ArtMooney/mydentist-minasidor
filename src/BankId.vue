@@ -76,7 +76,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.1",
+      message: "Test v0.0.2",
     };
   },
 
@@ -131,6 +131,7 @@ export default {
         // mobile device
         this.message = "Mobile device detected";
         // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
+        localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "init");
 
         window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       } else {
