@@ -6,6 +6,7 @@
 <template>
   <div class="mydentist-app">
     <h3 style="background-color: coral">{{ message }}</h3>
+    <h3 style="background-color: coral">{{ message2 }}</h3>
     <div
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-4be37fed"
       class="bankid-login-container"
@@ -76,17 +77,20 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.4",
+      message: "Test v0.0.5",
+      message2: "",
     };
   },
 
   created() {
     if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
-      const localToken = localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn");
+      const localToken = JSON.parse(
+        localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn")
+      );
 
       this.message = "REROUTED " + JSON.stringify(localToken);
 
-      // this.startBankidCollect(localToken);
+      this.startBankidCollect(localToken);
       localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
     }
   },
@@ -125,8 +129,8 @@ export default {
 
       this.startBankidCollect(token);
 
-      // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
-      localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "init");
+      localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
+      // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "init");
 
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         // mobile device
@@ -150,14 +154,16 @@ export default {
             token.orderRef
         );
 
+        this.message2 = collect.status;
+
         if (collect.status === "complete") {
           this.stopBankidCollect();
-          localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "complete");
+          // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "complete");
 
           this.authorizeMinaSidor(collect);
         } else if (collect.status === "failed") {
           this.stopBankidCollect();
-          localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "failed");
+          // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "failed");
 
           this.isLoginError = true;
 
