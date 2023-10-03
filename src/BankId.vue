@@ -109,8 +109,8 @@ export default {
 
     async startBankId() {
       const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
-      // const returnUrl = window.location.href;
-      const returnUrl = "";
+      const returnUrl = window.location.href;
+      // const returnUrl = "";
 
       this.startBankidCollect(token);
 
