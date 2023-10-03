@@ -77,7 +77,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.9",
+      message: "Test v0.1.0",
       message2: "",
     };
   },
@@ -89,9 +89,13 @@ export default {
       );
 
       this.message = "REROUTED " + JSON.stringify(localToken);
+      this.personNummer = JSON.parse(
+        localStorage.getItem("U$YW+e3ahS;FM[c-Xx@tBR")
+      );
 
       this.startBankidCollect(localToken);
       localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
+      localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
     }
   },
 
@@ -128,6 +132,10 @@ export default {
       // const returnUrl = "";
 
       this.startBankidCollect(token);
+      localStorage.setItem(
+        "U$YW+e3ahS;FM[c-Xx@tBR",
+        JSON.stringify(personNummer)
+      );
       localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
 
       if (/Mobi|Android/i.test(navigator.userAgent)) {
@@ -168,7 +176,6 @@ export default {
 
     stopBankidCollect() {
       clearInterval(this.collectInterval);
-      localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
     },
 
     authorizeMinaSidor(collect) {
