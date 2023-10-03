@@ -77,7 +77,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.1.0",
+      message: "Test v0.1.1",
       message2: "",
     };
   },
@@ -134,7 +134,7 @@ export default {
       this.startBankidCollect(token);
       localStorage.setItem(
         "U$YW+e3ahS;FM[c-Xx@tBR",
-        JSON.stringify(personNummer)
+        JSON.stringify(this.personNummer)
       );
       localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
 
