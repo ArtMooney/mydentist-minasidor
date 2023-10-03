@@ -701,6 +701,10 @@ a {
   left: 0.5rem;
 }
 
+.error-message {
+  background-color: rgba(155, 19, 115, 0.1);
+}
+
 @media screen and (max-width: 991px) {
   .bokningswidget-column {
     font-size: 0.7rem;

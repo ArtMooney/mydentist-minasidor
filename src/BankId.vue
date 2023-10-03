@@ -28,6 +28,7 @@
             placeholder="YYYYMMDDNNNN"
             id="personnummer"
             v-model="personNummer"
+            @click="isLoginError = false"
           />
         </div>
         <input
@@ -36,13 +37,21 @@
           data-wait="Var god vänta..."
           class="bankid-login w-button"
           @click="startBankId"
+          :disabled="!isValidInput(personNummer)"
+          :style="{
+            color: isValidInput(personNummer)
+              ? 'rgba(255, 255, 255, 1)'
+              : 'rgba(255, 255, 255, 0.5)',
+          }"
         />
 
-        <div class="w-form-done">
+        <div class="success-message w-form-done">
           <div>Thank you! Your submission has been received!</div>
         </div>
-        <div class="w-form-fail">
-          <div>Oops! Something went wrong while submitting the form.</div>
+        <div v-if="isLoginError" class="error-message w-form-fail">
+          <div>
+            {{ errorMessage }}
+          </div>
         </div>
       </div>
     </div>
@@ -60,9 +69,13 @@ export default {
     return {
       apiBaseUrl: "https://api.ngine.se/webhook/mydentist/",
       getBankidAuth: "bankid/auth",
+      getBankidCollect: "bankid/collect",
       userName: "XkehuCfMZ!hU%8h=",
       userPass: "QH5EV=2hNc*LFjJd",
       personNummer: null,
+      collectInterval: null,
+      isLoginError: false,
+      errorMessage: "Inloggningen misslyckades, var god försök igen!",
       message: "",
     };
   },
@@ -95,32 +108,79 @@ export default {
     },
 
     async startBankId() {
-      console.log("START BANKID");
-
       const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
-      const returnUrl = "https://www.ngine.se";
-      console.log(token.autoStartToken);
+      // const returnUrl = window.location.href;
+      const returnUrl = "";
+
+      this.startBankidCollect(token);
 
       if (/Mobi|Android/i.test(navigator.userAgent)) {
-        // This is a mobile device
-        console.log("Mobile device detected");
+        // mobile device
         this.message = "Mobile device detected";
 
-        // window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
+        window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       } else {
-        // This is a desktop device
-        console.log("Desktop device detected");
+        // desktop device
         this.message = "Desktop device detected";
 
-        // window.location.href = `bankid:///?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
+        window.location.href = `bankid:///?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       }
     },
-  },
 
-  watch: {
-    personNummer() {
-      console.log("PERSONNUMMER", this.personNummer);
+    startBankidCollect(token) {
+      this.collectInterval = setInterval(async () => {
+        const collect = await this.getApiData(
+          this.apiBaseUrl +
+            this.getBankidCollect +
+            "?orderRef=" +
+            token.orderRef
+        );
+
+        if (collect.status === "complete") {
+          this.stopBankidCollect();
+          this.authorizeMinaSidor(collect);
+        } else if (collect.status === "failed") {
+          this.stopBankidCollect();
+
+          this.isLoginError = true;
+
+          setTimeout(() => {
+            this.isLoginError = false;
+          }, 10000);
+        }
+      }, 2000);
+    },
+
+    stopBankidCollect() {
+      clearInterval(this.collectInterval);
+    },
+
+    authorizeMinaSidor(collect) {
+      if (
+        this.personNummer.toString() ===
+        collect.completionData.user.personalNumber
+      ) {
+        this.$emit("access", true);
+      } else {
+        this.$emit("access", false);
+        this.isLoginError = true;
+
+        setTimeout(() => {
+          this.isLoginError = false;
+        }, 10000);
+      }
+    },
+
+    isValidInput(input) {
+      var pattern = /^\d{12}$/;
+      return pattern.test(input);
     },
   },
 };
 </script>
+
+<style scoped>
+.error-message {
+  display: block;
+}
+</style>
