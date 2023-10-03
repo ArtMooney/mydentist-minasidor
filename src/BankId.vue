@@ -86,6 +86,8 @@ export default {
         localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn")
       );
 
+      this.message = "REROUTED";
+
       this.startBankidCollect(localToken);
       localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
     }
