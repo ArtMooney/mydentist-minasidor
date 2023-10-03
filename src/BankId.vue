@@ -76,17 +76,15 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.2",
+      message: "Test v0.0.3",
     };
   },
 
   created() {
     if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
-      const localToken = JSON.parse(
-        localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn")
-      );
+      const localToken = localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn");
 
-      this.message = "REROUTED" + JSON.stringify(localToken);
+      this.message = "REROUTED " + JSON.stringify(localToken);
 
       // this.startBankidCollect(localToken);
       localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
@@ -127,11 +125,12 @@ export default {
 
       this.startBankidCollect(token);
 
+      // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
+      localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "init");
+
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         // mobile device
         this.message = "Mobile device detected";
-        // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
-        localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", "init");
 
         window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       } else {
