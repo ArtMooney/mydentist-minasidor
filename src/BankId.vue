@@ -77,7 +77,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.7",
+      message: "Test v0.0.8",
       message2: "",
     };
   },
@@ -152,7 +152,7 @@ export default {
             token.orderRef
         );
 
-        this.message2 = collect.status;
+        this.message2 = JSON.stringify(collect);
 
         if (collect.status === "complete") {
           this.stopBankidCollect();
