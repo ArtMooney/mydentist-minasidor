@@ -99,12 +99,17 @@ export default {
       const returnUrl = "https://www.ngine.se";
       console.log(token.autoStartToken);
 
-      // desktop browsers
-      // window.location.href =
-      //   "bankid:///?autostarttoken=[TOKEN]&redirect=[RETURNURL]";
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        // This is a mobile device
+        console.log("Mobile device detected");
 
-      // mobile browsers
-      window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
+        // window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
+      } else {
+        // This is a desktop device
+        console.log("Desktop device detected");
+
+        // window.location.href = `bankid:///?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
+      }
     },
   },
 
