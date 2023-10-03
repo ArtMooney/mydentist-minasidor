@@ -80,6 +80,17 @@ export default {
     };
   },
 
+  created() {
+    if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
+      const localToken = JSON.parse(
+        localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn")
+      );
+
+      this.startBankidCollect(localToken);
+      localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
+    }
+  },
+
   methods: {
     getApiData(urlEndpoint) {
       return new Promise((resolve, reject) => {
@@ -117,6 +128,7 @@ export default {
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         // mobile device
         this.message = "Mobile device detected";
+        localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
 
         window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       } else {
