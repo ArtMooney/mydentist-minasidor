@@ -77,7 +77,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.8",
+      message: "Test v0.0.9",
       message2: "",
     };
   },
@@ -132,13 +132,9 @@ export default {
 
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         // mobile device
-        this.message = "Mobile device detected";
-
         window.location.href = `https://app.bankid.com/?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       } else {
         // desktop device
-        this.message = "Desktop device detected";
-
         window.location.href = `bankid:///?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       }
     },
@@ -152,7 +148,7 @@ export default {
             token.orderRef
         );
 
-        this.message2 = JSON.stringify(collect);
+        this.message2 = JSON.stringify(collect.status);
 
         if (collect.status === "complete") {
           this.stopBankidCollect();
