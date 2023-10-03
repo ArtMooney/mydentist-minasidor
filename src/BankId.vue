@@ -77,7 +77,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.0.6",
+      message: "Test v0.0.7",
       message2: "",
     };
   },
@@ -124,8 +124,8 @@ export default {
 
     async startBankId() {
       const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
-      // const returnUrl = window.location.href;
-      const returnUrl = "";
+      const returnUrl = window.location.href;
+      // const returnUrl = "";
 
       this.startBankidCollect(token);
       localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
