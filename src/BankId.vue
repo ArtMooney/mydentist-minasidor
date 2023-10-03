@@ -76,7 +76,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.1.4",
+      message: "Test v0.1.5",
     };
   },
 
@@ -125,7 +125,6 @@ export default {
     async startBankId() {
       const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
       const returnUrl = window.location.href;
-      // const returnUrl = "";
 
       this.startBankidCollect(token);
       localStorage.setItem(
@@ -169,13 +168,10 @@ export default {
     },
 
     stopBankidCollect() {
-      clearInterval(this.collectInterval);
+      localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
+      localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
 
-      setTimeout(() => {
-        localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
-        localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
-        this.message = "CLEARED";
-      }, 1000);
+      clearInterval(this.collectInterval);
     },
 
     authorizeMinaSidor(collect) {
