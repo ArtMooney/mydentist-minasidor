@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "purgecss": "^5.0.0",
+    "qrcode.vue": "^3.4.1",
     "vite-plugin-purgecss": "^0.2.12",
     "vue": "^3.2.47",
     "vue-router": "^4.2.4"

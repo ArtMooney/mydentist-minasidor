@@ -46,6 +46,12 @@
           }"
         />
 
+        <div @click="loginQrCode" style="padding: 1rem">
+          Logga in med annan enhet
+        </div>
+
+        <qrcode-vue :value="qrValue" :size="qrSize" level="H" />
+
         <div class="success-message w-form-done">
           <div>Thank you! Your submission has been received!</div>
         </div>
@@ -60,11 +66,12 @@
 </template>
 
 <script>
+import QrcodeVue from "qrcode.vue";
 import userSolid from "./images/user-solid.vue";
 
 export default {
   name: "BankId",
-  components: { userSolid },
+  components: { userSolid, QrcodeVue },
 
   data() {
     return {
@@ -78,8 +85,11 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.2.2",
+      message: "Test v0.2.3",
       message2: "",
+      qrValue:
+        "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.0.dc69358e712458a66a7525beef148ae8526b1c71610eff2c16cdffb4cdac9bf8",
+      qrSize: 256,
     };
   },
 
@@ -87,30 +97,6 @@ export default {
     const res = await fetch("https://api.ipify.org?format=json");
     const ip = await res.json();
     this.ip = ip.ip;
-
-    const status = localStorage.getItem("mydentist-minasidor");
-    this.message2 = "START " + status;
-
-    if (status === "pending") {
-      // this.startBankidCollect(token);
-    }
-
-    // spara personnummer
-    // spara token
-    // kolla om autentiseringen blev godkänd
-    // spara inloggningsstatus i en kvart
-    //
-    // if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
-    //   this.message2 = "LOCAL STORAGE PROCESS";
-    //   this.personNummer = JSON.parse(
-    //     localStorage.getItem("U$YW+e3ahS;FM[c-Xx@tBR")
-    //   );
-    //   this.startBankidCollect(
-    //     JSON.parse(localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn"))
-    //   );
-    //   localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
-    //   localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
-    // }
   },
 
   methods: {
@@ -141,8 +127,6 @@ export default {
     },
 
     async startBankId() {
-      localStorage.removeItem("mydentist-minasidor");
-
       const token = await this.getApiData(
         this.apiBaseUrl + this.getBankidAuth + "?ip=" + this.ip
       );
@@ -150,12 +134,6 @@ export default {
       const returnUrl = "";
 
       this.startBankidCollect(token);
-
-      // localStorage.setItem(
-      //   "U$YW+e3ahS;FM[c-Xx@tBR",
-      //   JSON.stringify(this.personNummer)
-      // );
-      // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
 
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         // mobile device
@@ -166,6 +144,10 @@ export default {
       }
     },
 
+    loginQrCode() {
+      console.log("HEJ");
+    },
+
     startBankidCollect(token) {
       this.collectInterval = setInterval(async () => {
         const collect = await this.getApiData(
@@ -174,8 +156,6 @@ export default {
             "?orderRef=" +
             token.orderRef
         );
-
-        localStorage.setItem("mydentist-minasidor", collect.status);
 
         if (collect.status === "complete") {
           this.stopBankidCollect();
@@ -194,9 +174,6 @@ export default {
     },
 
     stopBankidCollect() {
-      // localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
-      // localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
-
       clearInterval(this.collectInterval);
     },
 
