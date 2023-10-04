@@ -78,7 +78,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.1.5",
+      message: "Test v0.1.6",
       message2: "",
       message3: "",
     };
