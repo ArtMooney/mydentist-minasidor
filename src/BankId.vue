@@ -78,7 +78,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.1.6",
+      message: "Test v0.1.7",
       message2: "",
       message3: "",
     };
@@ -176,8 +176,8 @@ export default {
     },
 
     stopBankidCollect() {
-      localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
-      localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
+      // localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
+      // localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
 
       clearInterval(this.collectInterval);
     },
