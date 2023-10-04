@@ -46,7 +46,7 @@
           }"
         />
 
-        <div @click="loginQrCode" style="padding: 1rem">
+        <div @click="startBankIdQr" style="padding: 1rem">
           Logga in med annan enhet
         </div>
 
@@ -77,18 +77,20 @@ export default {
     return {
       apiBaseUrl: "https://api.ngine.se/webhook/mydentist/",
       getBankidAuth: "bankid/auth",
+      getBankidAuthQr: "bankid/auth-qr",
+      getBankidQr: "bankid/qr",
       getBankidCollect: "bankid/collect",
       userName: "XkehuCfMZ!hU%8h=",
       userPass: "QH5EV=2hNc*LFjJd",
       personNummer: null,
       ip: null,
       collectInterval: null,
+      collectQrInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.2.3",
+      message: "Test v0.2.4",
       message2: "",
-      qrValue:
-        "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.0.dc69358e712458a66a7525beef148ae8526b1c71610eff2c16cdffb4cdac9bf8",
+      qrValue: "",
       qrSize: 256,
     };
   },
@@ -144,12 +146,19 @@ export default {
       }
     },
 
-    loginQrCode() {
-      console.log("HEJ");
+    async startBankIdQr() {
+      const token = await this.getApiData(
+        this.apiBaseUrl + this.getBankidAuthQr + "?ip=" + this.ip
+      );
+
+      this.startBankidCollect(token);
+      this.startBankidCollectQr(token);
     },
 
     startBankidCollect(token) {
       this.collectInterval = setInterval(async () => {
+        console.log("COLLECT REPEAT");
+
         const collect = await this.getApiData(
           this.apiBaseUrl +
             this.getBankidCollect +
@@ -157,10 +166,18 @@ export default {
             token.orderRef
         );
 
+        this.message2 = collect.status;
+
         if (collect.status === "complete") {
           this.stopBankidCollect();
 
-          this.authorizeMinaSidor(collect);
+          if (!this.qrValue) {
+            // direct
+            this.authorizeMinaSidor(collect);
+          } else {
+            // qr
+            this.$emit("access", true);
+          }
         } else if (collect.status === "failed") {
           this.stopBankidCollect();
 
@@ -173,8 +190,21 @@ export default {
       }, 2000);
     },
 
+    async startBankidCollectQr(token) {
+      this.collectQrInterval = setInterval(async () => {
+        console.log("QR REPEAT");
+
+        const collect = await this.getApiData(
+          this.apiBaseUrl + this.getBankidQr + "?orderRef=" + token.orderRef
+        );
+
+        this.qrValue = collect.qr_data;
+      }, 1000);
+    },
+
     stopBankidCollect() {
       clearInterval(this.collectInterval);
+      clearInterval(this.collectQrInterval);
     },
 
     authorizeMinaSidor(collect) {
