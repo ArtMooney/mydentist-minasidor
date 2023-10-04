@@ -6,6 +6,7 @@
 <template>
   <div class="mydentist-app">
     <h3 style="background-color: coral">{{ message }}</h3>
+    <h3 style="background-color: coral">{{ message2 }}</h3>
     <div
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-4be37fed"
       class="bankid-login-container"
@@ -73,17 +74,27 @@ export default {
       userName: "XkehuCfMZ!hU%8h=",
       userPass: "QH5EV=2hNc*LFjJd",
       personNummer: null,
+      ip: null,
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.2.0",
+      message: "Test v0.2.1",
+      message2: "",
     };
   },
 
-  created() {
+  async created() {
+    const res = await fetch("https://api.ipify.org?format=json");
+    const ip = await res.json();
+    this.ip = ip.ip;
+
+    console.log("START", localStorage.getItem("mydentist-minasidor"));
+    this.message2 = "START " + localStorage.getItem("mydentist-minasidor");
+
     // spara personnummer
     // spara token
     // kolla om autentiseringen blev godkänd
+    // spara inloggningsstatus i en kvart
     //
     // if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
     //   this.message2 = "LOCAL STORAGE PROCESS";
@@ -126,11 +137,15 @@ export default {
     },
 
     async startBankId() {
-      const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
-      // const returnUrl = window.location.href;
-      const returnUrl = window.location.href + "?test";
+      localStorage.removeItem("mydentist-minasidor");
+
+      const token = await this.getApiData(
+        this.apiBaseUrl + this.getBankidAuth + "?ip=" + this.ip
+      );
+      const returnUrl = window.location.href;
 
       this.startBankidCollect(token);
+
       // localStorage.setItem(
       //   "U$YW+e3ahS;FM[c-Xx@tBR",
       //   JSON.stringify(this.personNummer)
@@ -154,6 +169,8 @@ export default {
             "?orderRef=" +
             token.orderRef
         );
+
+        localStorage.setItem("mydentist-minasidor", collect.status);
 
         if (collect.status === "complete") {
           this.stopBankidCollect();
