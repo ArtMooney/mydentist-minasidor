@@ -6,8 +6,6 @@
 <template>
   <div class="mydentist-app">
     <h3 style="background-color: coral">{{ message }}</h3>
-    <h3 style="background-color: coral">{{ message2 }}</h3>
-    <h3 style="background-color: coral">{{ message3 }}</h3>
     <div
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-4be37fed"
       class="bankid-login-container"
@@ -78,27 +76,22 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.1.7",
-      message2: "",
-      message3: "",
+      message: "Test v0.1.8",
     };
   },
 
   created() {
-    if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
-      this.message2 = "LOCAL STORAGE PROCESS";
-
-      this.personNummer = JSON.parse(
-        localStorage.getItem("U$YW+e3ahS;FM[c-Xx@tBR")
-      );
-
-      this.startBankidCollect(
-        JSON.parse(localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn"))
-      );
-
-      localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
-      localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
-    }
+    // if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
+    //   this.message2 = "LOCAL STORAGE PROCESS";
+    //   this.personNummer = JSON.parse(
+    //     localStorage.getItem("U$YW+e3ahS;FM[c-Xx@tBR")
+    //   );
+    //   this.startBankidCollect(
+    //     JSON.parse(localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn"))
+    //   );
+    //   localStorage.removeItem("U3>s^$9PX?V8Qzhv(yk_Zn");
+    //   localStorage.removeItem("U$YW+e3ahS;FM[c-Xx@tBR");
+    // }
   },
 
   methods: {
@@ -133,11 +126,11 @@ export default {
       const returnUrl = window.location.href;
 
       this.startBankidCollect(token);
-      localStorage.setItem(
-        "U$YW+e3ahS;FM[c-Xx@tBR",
-        JSON.stringify(this.personNummer)
-      );
-      localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
+      // localStorage.setItem(
+      //   "U$YW+e3ahS;FM[c-Xx@tBR",
+      //   JSON.stringify(this.personNummer)
+      // );
+      // localStorage.setItem("U3>s^$9PX?V8Qzhv(yk_Zn", JSON.stringify(token));
 
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         // mobile device
@@ -156,8 +149,6 @@ export default {
             "?orderRef=" +
             token.orderRef
         );
-
-        this.message3 = collect.status;
 
         if (collect.status === "complete") {
           this.stopBankidCollect();
