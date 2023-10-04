@@ -76,11 +76,15 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.1.9",
+      message: "Test v0.2.0",
     };
   },
 
   created() {
+    // spara personnummer
+    // spara token
+    // kolla om autentiseringen blev godkänd
+    //
     // if (localStorage.getItem("U3>s^$9PX?V8Qzhv(yk_Zn") !== null) {
     //   this.message2 = "LOCAL STORAGE PROCESS";
     //   this.personNummer = JSON.parse(
@@ -124,7 +128,7 @@ export default {
     async startBankId() {
       const token = await this.getApiData(this.apiBaseUrl + this.getBankidAuth);
       // const returnUrl = window.location.href;
-      const returnUrl = "";
+      const returnUrl = window.location.href + "?test";
 
       this.startBankidCollect(token);
       // localStorage.setItem(
