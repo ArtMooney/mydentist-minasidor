@@ -78,7 +78,7 @@ export default {
       collectInterval: null,
       isLoginError: false,
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.2.1",
+      message: "Test v0.2.2",
       message2: "",
     };
   },
@@ -88,8 +88,12 @@ export default {
     const ip = await res.json();
     this.ip = ip.ip;
 
-    console.log("START", localStorage.getItem("mydentist-minasidor"));
-    this.message2 = "START " + localStorage.getItem("mydentist-minasidor");
+    const status = localStorage.getItem("mydentist-minasidor");
+    this.message2 = "START " + status;
+
+    if (status === "pending") {
+      // this.startBankidCollect(token);
+    }
 
     // spara personnummer
     // spara token
@@ -142,7 +146,8 @@ export default {
       const token = await this.getApiData(
         this.apiBaseUrl + this.getBankidAuth + "?ip=" + this.ip
       );
-      const returnUrl = window.location.href;
+      // const returnUrl = window.location.href;
+      const returnUrl = "";
 
       this.startBankidCollect(token);
 
