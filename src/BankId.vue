@@ -5,8 +5,6 @@
 
 <template>
   <div class="mydentist-app">
-    <h3 style="background-color: coral">{{ message }}</h3>
-    <h3 style="background-color: coral">{{ message2 }}</h3>
     <div
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-4be37fed"
       class="bankid-login-container"
@@ -16,45 +14,56 @@
         class="bankid-login-wrapper"
       >
         <img src="./images/BankID_logo.png" alt="" class="bankid-logo" />
-        <div>Person-/Organisationsnummer</div>
+        <div>{{ modeInstructions }}</div>
 
-        <div class="bankid-input-wrapper">
-          <userSolid style="color: #9b1473" class="bankid-input-user" />
+        <template v-if="!qrMode">
+          <div class="bankid-input-wrapper">
+            <userSolid style="color: #9b1473" class="bankid-input-user" />
+            <input
+              type="number"
+              class="bankid-input w-input"
+              maxlength="256"
+              name="personnummer"
+              data-name="personnummer"
+              placeholder="YYYYMMDDNNNN"
+              id="personnummer"
+              v-model="personNummer"
+              @click="isLoginError = false"
+            />
+          </div>
           <input
-            type="number"
-            class="bankid-input w-input"
-            maxlength="256"
-            name="personnummer"
-            data-name="personnummer"
-            placeholder="YYYYMMDDNNNN"
-            id="personnummer"
-            v-model="personNummer"
-            @click="isLoginError = false"
+            type="submit"
+            value="Logga in"
+            data-wait="Var god vänta..."
+            class="bankid-login w-button"
+            @click="startBankId"
+            :disabled="!isValidInput(personNummer)"
+            :style="{
+              color: isValidInput(personNummer)
+                ? 'rgba(255, 255, 255, 1)'
+                : 'rgba(255, 255, 255, 0.5)',
+            }"
+          />
+        </template>
+
+        <div v-if="qrMode" class="qr-wrapper">
+          <qrcode-vue
+            v-if="qrValue"
+            :value="qrValue"
+            :size="qrSize"
+            level="H"
+          />
+          <Vue3Lottie
+            v-if="!qrValue"
+            :animationData="loading"
+            :height="100"
+            :width="100"
           />
         </div>
-        <input
-          type="submit"
-          value="Logga in"
-          data-wait="Var god vänta..."
-          class="bankid-login w-button"
-          @click="startBankId"
-          :disabled="!isValidInput(personNummer)"
-          :style="{
-            color: isValidInput(personNummer)
-              ? 'rgba(255, 255, 255, 1)'
-              : 'rgba(255, 255, 255, 0.5)',
-          }"
-        />
-
-        <div @click="startBankIdQr" style="padding: 1rem">
-          Logga in med annan enhet
+        <div @click="startBankIdQr" class="select-other-input">
+          {{ chooseMode }}
         </div>
 
-        <qrcode-vue :value="qrValue" :size="qrSize" level="H" />
-
-        <div class="success-message w-form-done">
-          <div>Thank you! Your submission has been received!</div>
-        </div>
         <div v-if="isLoginError" class="error-message w-form-fail">
           <div>
             {{ errorMessage }}
@@ -68,10 +77,12 @@
 <script>
 import QrcodeVue from "qrcode.vue";
 import userSolid from "./images/user-solid.vue";
+import { Vue3Lottie } from "vue3-lottie";
+import loading from "./images/loading.json";
 
 export default {
   name: "BankId",
-  components: { userSolid, QrcodeVue },
+  components: { userSolid, QrcodeVue, Vue3Lottie },
 
   data() {
     return {
@@ -87,15 +98,24 @@ export default {
       collectInterval: null,
       collectQrInterval: null,
       isLoginError: false,
+      modeInstructions: "",
+      modeInstructionsNumber: "Person-/Organisationsnummer",
+      modeInstructionsQR: "Scanna QR-koden med BankID på din externa enhet",
+      chooseMode: "",
+      chooseModeDirect: "Logga in med ert personnummer",
+      chooseModeQR: "Logga in med annan enhet",
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
-      message: "Test v0.2.4",
-      message2: "",
       qrValue: "",
       qrSize: 256,
+      qrMode: false,
+      loading,
     };
   },
 
   async created() {
+    this.modeInstructions = this.modeInstructionsNumber;
+    this.chooseMode = this.chooseModeQR;
+
     const res = await fetch("https://api.ipify.org?format=json");
     const ip = await res.json();
     this.ip = ip.ip;
@@ -147,26 +167,26 @@ export default {
     },
 
     async startBankIdQr() {
+      this.qrMode = !this.qrMode;
+
+      if (!this.qrMode) return;
+
       const token = await this.getApiData(
         this.apiBaseUrl + this.getBankidAuthQr + "?ip=" + this.ip
       );
 
       this.startBankidCollect(token);
-      this.startBankidCollectQr(token);
+      this.startBankidQrGenerator(token);
     },
 
     startBankidCollect(token) {
       this.collectInterval = setInterval(async () => {
-        console.log("COLLECT REPEAT");
-
         const collect = await this.getApiData(
           this.apiBaseUrl +
             this.getBankidCollect +
             "?orderRef=" +
             token.orderRef
         );
-
-        this.message2 = collect.status;
 
         if (collect.status === "complete") {
           this.stopBankidCollect();
@@ -180,20 +200,13 @@ export default {
           }
         } else if (collect.status === "failed") {
           this.stopBankidCollect();
-
-          this.isLoginError = true;
-
-          setTimeout(() => {
-            this.isLoginError = false;
-          }, 10000);
+          this.generateError();
         }
       }, 2000);
     },
 
-    async startBankidCollectQr(token) {
+    async startBankidQrGenerator(token) {
       this.collectQrInterval = setInterval(async () => {
-        console.log("QR REPEAT");
-
         const collect = await this.getApiData(
           this.apiBaseUrl + this.getBankidQr + "?orderRef=" + token.orderRef
         );
@@ -215,17 +228,37 @@ export default {
         this.$emit("access", true);
       } else {
         this.$emit("access", false);
-        this.isLoginError = true;
-
-        setTimeout(() => {
-          this.isLoginError = false;
-        }, 10000);
+        this.generateError();
       }
+    },
+
+    generateError() {
+      this.isLoginError = true;
+      this.qrValue = "";
+      this.qrMode = false;
+
+      setTimeout(() => {
+        this.isLoginError = false;
+      }, 10000);
     },
 
     isValidInput(input) {
       var pattern = /^\d{12}$/;
       return pattern.test(input);
+    },
+  },
+
+  watch: {
+    qrMode() {
+      this.stopBankidCollect();
+
+      if (this.qrMode) {
+        this.chooseMode = this.chooseModeDirect;
+        this.modeInstructions = this.modeInstructionsQR;
+      } else {
+        this.chooseMode = this.chooseModeQR;
+        this.modeInstructions = this.modeInstructionsNumber;
+      }
     },
   },
 };
