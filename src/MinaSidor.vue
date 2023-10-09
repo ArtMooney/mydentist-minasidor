@@ -91,13 +91,8 @@
       </div>
     </div>
 
-    <div class="minasidor-loading">
-      <Vue3Lottie
-        v-if="loadingFlag"
-        :animationData="loading"
-        :height="100"
-        :width="100"
-      />
+    <div v-if="loadingFlag" class="minasidor-loading">
+      <Vue3Lottie :animationData="loading" :height="100" :width="100" />
     </div>
   </div>
 </template>
