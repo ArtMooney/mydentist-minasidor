@@ -74,7 +74,7 @@
         </template>
 
         <div
-          v-if="mobileMode"
+          v-if="!mobileMode"
           @click="switchLoginMode"
           class="select-other-input"
         >
