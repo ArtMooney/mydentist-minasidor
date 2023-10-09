@@ -88,7 +88,6 @@ export default {
     return {
       apiBaseUrl: "https://api.ngine.se/webhook/mydentist/",
       getBankidAuth: "bankid/auth",
-      getBankidAuthQr: "bankid/auth-qr",
       getBankidQr: "bankid/qr",
       getBankidCollect: "bankid/collect",
       userName: "XkehuCfMZ!hU%8h=",
@@ -172,7 +171,7 @@ export default {
       if (!this.qrMode) return;
 
       const token = await this.getApiData(
-        this.apiBaseUrl + this.getBankidAuthQr + "?ip=" + this.ip
+        this.apiBaseUrl + this.getBankidAuth + "?ip=" + this.ip
       );
 
       this.startBankidCollect(token);
@@ -196,7 +195,10 @@ export default {
             this.authorizeMinaSidor(collect);
           } else {
             // qr
-            this.$emit("access", true);
+            this.$emit("access", {
+              auth: true,
+              orderRef: collect.orderRef,
+            });
           }
         } else if (collect.status === "failed") {
           this.stopBankidCollect();
@@ -225,9 +227,15 @@ export default {
         this.personNummer.toString() ===
         collect.completionData.user.personalNumber
       ) {
-        this.$emit("access", true);
+        this.$emit("access", {
+          auth: true,
+          orderRef: collect.orderRef,
+        });
       } else {
-        this.$emit("access", false);
+        this.$emit("access", {
+          auth: false,
+          orderRef: null,
+        });
         this.generateError();
       }
     },

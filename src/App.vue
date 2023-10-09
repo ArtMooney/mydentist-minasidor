@@ -1,6 +1,6 @@
 <template>
   <BankId @access="authStatus" v-if="!isAuthorized" />
-  <MinaSidor v-if="isAuthorized" />
+  <MinaSidor v-if="isAuthorized" :orderRef="orderRef" />
 </template>
 
 <script>
@@ -14,12 +14,14 @@ export default {
   data() {
     return {
       isAuthorized: false,
+      orderRef: null,
     };
   },
 
   methods: {
-    authStatus(value) {
-      this.isAuthorized = value;
+    authStatus({ auth, orderRef }) {
+      this.isAuthorized = auth;
+      this.orderRef = orderRef;
     },
   },
 };

@@ -1,3 +1,10 @@
+:root {
+  --cadet-blue: #73a0ac;
+  --floral-white: #fffef7;
+  --light-blue: #c4dade;
+  --cadet-blue-2: #57a3af;
+}
+
 p {
   margin-bottom: 10px;
   font-size: 76%;
@@ -727,6 +734,27 @@ a {
 .qr-image {
   width: 256px;
   height: 256px;
+}
+
+.time-block-empty {
+  text-align: left;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  overflow: hidden;
+}
+
+.minasidor-loading {
+  width: 100%;
+  height: 20rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.lottie-animation {
+  width: 100px;
+  height: 100px;
 }
 
 @media screen and (max-width: 991px) {

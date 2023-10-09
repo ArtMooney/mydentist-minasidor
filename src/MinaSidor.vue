@@ -6,6 +6,7 @@
 <template>
   <div class="mydentist-app">
     <div
+      v-if="!loadingFlag"
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-2190bb79"
       class="minasidor-wrapper"
     >
@@ -50,6 +51,10 @@
             </div>
           </div>
         </div>
+
+        <div v-if="listBookings.data.length === 0" class="time-block-empty">
+          Vi hittade inga aktuella bokningar.
+        </div>
       </div>
 
       <div class="times-wrapper">
@@ -76,49 +81,72 @@
             <div class="time-block-content">{{ entry.attributes.text }}</div>
           </div>
         </div>
+
+        <div
+          v-if="listJournalEntries.data.length === 0"
+          class="time-block-empty"
+        >
+          Vi hittade ingen journal.
+        </div>
       </div>
+    </div>
+
+    <div class="minasidor-loading">
+      <Vue3Lottie
+        v-if="loadingFlag"
+        :animationData="loading"
+        :height="100"
+        :width="100"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { Vue3Lottie } from "vue3-lottie";
+import loading from "./images/loading.json";
 import plus from "./images/plus.vue";
 import minus from "./images/minus.vue";
 
 export default {
   name: "MinaSidor",
-  components: { plus, minus },
+  components: { Vue3Lottie, plus, minus },
+
+  props: {
+    orderRef: {
+      type: String,
+      default: null,
+    },
+  },
 
   data() {
     return {
       apiBaseUrl: "https://api.ngine.se/webhook/mydentist/",
-      getJournalEntries: "get-journal-entries",
-      getBookings: "bookings",
+      getJournalBookings: "journal-bookings",
       userName: "XkehuCfMZ!hU%8h=",
       userPass: "QH5EV=2hNc*LFjJd",
       listJournalEntries: [],
       listBookings: [],
       showItemLeft: false,
       showItemRight: false,
+      loadingFlag: true,
+      loading,
     };
   },
 
   async created() {
-    console.clear();
-
-    this.listJournalEntries = await this.getApiData(
-      this.apiBaseUrl + this.getJournalEntries
-    );
-    this.listBookings = await this.getApiData(
-      this.apiBaseUrl + this.getBookings
+    const journalBookings = await this.getApiData(
+      this.apiBaseUrl + this.getJournalBookings + "?orderRef=" + this.orderRef
     );
 
-    console.log(
-      "JOURNAL ENTRIES",
-      JSON.parse(JSON.stringify(this.listJournalEntries))
-    );
+    this.listJournalEntries = journalBookings.data[0];
+    this.listBookings = journalBookings.data[1];
 
-    console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
+    // console.log("JOURNAL BOOKINGS", journalBookings);
+    // console.log("JOURNAL", JSON.parse(JSON.stringify(this.listJournalEntries)));
+    // console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
+
+    this.loadingFlag = false;
   },
 
   methods: {
