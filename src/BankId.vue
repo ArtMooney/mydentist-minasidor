@@ -73,7 +73,11 @@
           />
         </template>
 
-        <div @click="switchLoginMode" class="select-other-input">
+        <div
+          v-if="mobileMode"
+          @click="switchLoginMode"
+          class="select-other-input"
+        >
           {{ chooseMode }}
         </div>
 
@@ -121,6 +125,7 @@ export default {
       qrSize: 256,
       qrMode: true,
       qrStarted: false,
+      mobileMode: false,
       loading,
     };
   },
@@ -132,9 +137,11 @@ export default {
     if (/Mobi|Android/i.test(navigator.userAgent)) {
       // mobile device
       this.qrMode = false;
+      this.mobileMode = true;
     } else {
       // desktop device
       this.qrMode = true;
+      this.mobileMode = false;
     }
 
     const res = await fetch("https://api.ipify.org?format=json");
