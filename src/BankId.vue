@@ -129,6 +129,14 @@ export default {
     this.modeInstructions = this.modeInstructionsQR;
     this.chooseMode = this.chooseModeDirect;
 
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+      // mobile device
+      this.qrMode = false;
+    } else {
+      // desktop device
+      this.qrMode = true;
+    }
+
     const res = await fetch("https://api.ipify.org?format=json");
     const ip = await res.json();
     this.ip = ip.ip;
