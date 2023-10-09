@@ -36,8 +36,9 @@
             value="Logga in"
             data-wait="Var god vänta..."
             class="bankid-login w-button"
-            @click="startBankId"
-            :disabled="!isValidInput(personNummer)"
+            @click="
+              isValidInput(personNummer) ? startBankId($event) : startBankIdQr()
+            "
             :style="{
               color: isValidInput(personNummer)
                 ? 'rgba(255, 255, 255, 1)'
@@ -147,7 +148,10 @@ export default {
       });
     },
 
-    async startBankId() {
+    async startBankId(event) {
+      const orgLabel = event.target.value;
+      event.target.value = event.target.getAttribute("data-wait");
+
       const token = await this.getApiData(
         this.apiBaseUrl + this.getBankidAuth + "?ip=" + this.ip
       );
@@ -163,6 +167,8 @@ export default {
         // desktop device
         window.location.href = `bankid:///?autostarttoken=${token.autoStartToken}&redirect=${returnUrl}`;
       }
+
+      event.target.value = orgLabel;
     },
 
     async startBankIdQr() {
