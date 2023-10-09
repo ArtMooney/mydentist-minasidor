@@ -14,9 +14,35 @@
         class="bankid-login-wrapper"
       >
         <img src="./images/BankID_logo.png" alt="" class="bankid-logo" />
-        <div>{{ modeInstructions }}</div>
+        <div v-if="qrStarted || qrMode === false">{{ modeInstructions }}</div>
 
-        <template v-if="!qrMode">
+        <template v-if="qrMode">
+          <div v-if="qrStarted" class="qr-wrapper">
+            <qrcode-vue
+              v-if="qrValue"
+              :value="qrValue"
+              :size="qrSize"
+              level="H"
+            />
+            <Vue3Lottie
+              v-if="!qrValue"
+              :animationData="loading"
+              :height="100"
+              :width="100"
+            />
+          </div>
+
+          <input
+            v-if="!qrStarted"
+            type="submit"
+            value="Logga in med mobilt BankID"
+            data-wait="Var god vänta..."
+            class="bankid-login w-button"
+            @click="startBankIdQr"
+          />
+        </template>
+
+        <template v-else>
           <div class="bankid-input-wrapper">
             <userSolid style="color: #9b1473" class="bankid-input-user" />
             <input
@@ -31,14 +57,13 @@
               @click="isLoginError = false"
             />
           </div>
+
           <input
             type="submit"
             value="Logga in"
             data-wait="Var god vänta..."
             class="bankid-login w-button"
-            @click="
-              isValidInput(personNummer) ? startBankId($event) : startBankIdQr()
-            "
+            @click="startBankId"
             :style="{
               color: isValidInput(personNummer)
                 ? 'rgba(255, 255, 255, 1)'
@@ -47,21 +72,7 @@
           />
         </template>
 
-        <div v-if="qrMode" class="qr-wrapper">
-          <qrcode-vue
-            v-if="qrValue"
-            :value="qrValue"
-            :size="qrSize"
-            level="H"
-          />
-          <Vue3Lottie
-            v-if="!qrValue"
-            :animationData="loading"
-            :height="100"
-            :width="100"
-          />
-        </div>
-        <div @click="startBankIdQr" class="select-other-input">
+        <div @click="switchLoginMode" class="select-other-input">
           {{ chooseMode }}
         </div>
 
@@ -103,18 +114,19 @@ export default {
       modeInstructionsQR: "Scanna QR-koden med BankID på din externa enhet",
       chooseMode: "",
       chooseModeDirect: "Logga in med ert personnummer",
-      chooseModeQR: "Logga in med annan enhet",
+      chooseModeQR: "Logga in med Mobilt BankID",
       errorMessage: "Inloggningen misslyckades, var god försök igen!",
       qrValue: "",
       qrSize: 256,
-      qrMode: false,
+      qrMode: true,
+      qrStarted: false,
       loading,
     };
   },
 
   async created() {
-    this.modeInstructions = this.modeInstructionsNumber;
-    this.chooseMode = this.chooseModeQR;
+    this.modeInstructions = this.modeInstructionsQR;
+    this.chooseMode = this.chooseModeDirect;
 
     const res = await fetch("https://api.ipify.org?format=json");
     const ip = await res.json();
@@ -172,9 +184,9 @@ export default {
     },
 
     async startBankIdQr() {
-      this.qrMode = !this.qrMode;
+      this.qrStarted = true;
 
-      if (!this.qrMode) return;
+      if (!this.qrStarted) return;
 
       const token = await this.getApiData(
         this.apiBaseUrl + this.getBankidAuth + "?ip=" + this.ip
@@ -249,7 +261,8 @@ export default {
     generateError() {
       this.isLoginError = true;
       this.qrValue = "";
-      this.qrMode = false;
+      this.qrMode = true;
+      this.qrStarted = false;
 
       setTimeout(() => {
         this.isLoginError = false;
@@ -259,6 +272,10 @@ export default {
     isValidInput(input) {
       var pattern = /^\d{12}$/;
       return pattern.test(input);
+    },
+
+    switchLoginMode() {
+      this.qrMode = !this.qrMode;
     },
   },
 
