@@ -220,7 +220,6 @@ a {
 
 .minasidor-wrapper {
   width: 100%;
-  min-height: 30rem;
   grid-column-gap: 2rem;
   grid-row-gap: 2rem;
   grid-template-rows: 5rem;
