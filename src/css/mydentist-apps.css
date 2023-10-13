@@ -17,6 +17,7 @@ a {
 .bokningswidget-column {
   outline-offset: 0px;
   color: #8f8f8f;
+  cursor: pointer;
   background-color: #fff;
   outline: 1px solid rgba(190, 190, 190, 0.25);
   flex-direction: column;
@@ -93,12 +94,12 @@ a {
 }
 
 .text-large {
-  color: #757575;
+  color: #000;
   text-align: center;
   font-family: Fororounded, sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.34rem;
   font-weight: 700;
-  line-height: 2.1rem;
+  line-height: 1.84rem;
 }
 
 .hover-layer {
@@ -349,8 +350,13 @@ a {
 .list-popup-wrapper {
   z-index: 2147483647;
   height: 100vh;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
   text-align: left;
   background-color: rgba(0, 0, 0, 0.75);
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-columns: 1fr;
   justify-content: center;
   align-items: flex-start;
   padding-top: 1rem;
@@ -755,6 +761,22 @@ a {
 .lottie-animation {
   width: 100px;
   height: 100px;
+}
+
+.button-mina-sidor {
+  color: #000;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 0.8rem;
+  align-self: flex-start;
+  margin-top: 3rem;
+  padding: 0.9rem 4rem 0.6rem;
+  font-family: Fororounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.4rem;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 991px) {

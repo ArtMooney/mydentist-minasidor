@@ -27,7 +27,7 @@
         <div
           class="time-block"
           @click="handleTimeblockLeft(index)"
-          v-for="(entry, index) of listBookings.data"
+          v-for="(entry, index) of listBookings.data.slice(0, numberOfBookings)"
           :key="index"
         >
           <div class="block-title">
@@ -52,6 +52,18 @@
           </div>
         </div>
 
+        <button
+          v-if="
+            listBookings.data.length !== 0 &&
+            !disableLoadMoreBookings &&
+            listBookings.data.length > numberOfBookings
+          "
+          @click="loadMoreBookings"
+          class="button-mina-sidor w-button"
+        >
+          Ladda fler
+        </button>
+
         <div v-if="listBookings.data.length === 0" class="time-block-empty">
           Vi hittade inga aktuella bokningar.
         </div>
@@ -61,7 +73,7 @@
         <div
           class="time-block"
           @click="handleTimeblockRight(index)"
-          v-for="(entry, index) of listJournal.data"
+          v-for="(entry, index) of listJournal.data.slice(0, numberOfJournal)"
           :key="index"
         >
           <div class="block-title">
@@ -81,6 +93,18 @@
             <div class="time-block-content">{{ entry.attributes.text }}</div>
           </div>
         </div>
+
+        <button
+          v-if="
+            listJournal.data.length !== 0 &&
+            !disableLoadMoreJournal &&
+            listJournal.data.length > numberOfJournal
+          "
+          @click="loadMoreJournal"
+          class="button-mina-sidor w-button"
+        >
+          Ladda fler
+        </button>
 
         <div v-if="listJournal.data.length === 0" class="time-block-empty">
           Vi hittade ingen journal.
@@ -129,6 +153,10 @@ export default {
       loading,
       apiError: false,
       apiErrorMessage: "Något gick fel under laddningen av er profil.",
+      numberOfJournal: 10,
+      disableLoadMoreJournal: false,
+      numberOfBookings: 10,
+      disableLoadMoreBookings: false,
     };
   },
 
@@ -201,6 +229,22 @@ export default {
         this.showItemRight = index;
       }
     },
+
+    loadMoreJournal() {
+      this.numberOfJournal += 10;
+
+      if (this.numberOfJournal >= parseInt(this.listJournal.data.length)) {
+        this.disableLoadMoreJournal = true;
+      }
+    },
+
+    loadMoreBookings() {
+      this.numberOfBookings += 10;
+
+      if (this.numberOfBookings >= parseInt(this.listBookings.data.length)) {
+        this.disableLoadMoreBookings = true;
+      }
+    },
   },
 };
 </script>
@@ -218,5 +262,13 @@ export default {
 
 .time-block-content {
   overflow: hidden;
+}
+
+.button-mina-sidor {
+  box-shadow: inset 0 -3px 0 -3px #e4e4e4;
+  transition: box-shadow 0.15s ease-in-out;
+}
+.button-mina-sidor:hover {
+  box-shadow: inset 0 -50px 0 -3px #e4e4e4;
 }
 </style>
