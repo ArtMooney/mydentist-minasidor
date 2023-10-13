@@ -88,8 +88,12 @@
       </div>
     </div>
 
-    <div v-if="loadingFlag" class="minasidor-loading">
+    <div v-if="loadingFlag && !apiError" class="minasidor-loading">
       <Vue3Lottie :animationData="loading" :height="100" :width="100" />
+    </div>
+
+    <div v-if="loadingFlag && apiError">
+      <div>{{ apiErrorMessage }}</div>
     </div>
   </div>
 </template>
@@ -123,6 +127,8 @@ export default {
       showItemRight: false,
       loadingFlag: true,
       loading,
+      apiError: false,
+      apiErrorMessage: "Något gick fel under laddningen av er profil.",
     };
   },
 
@@ -168,6 +174,7 @@ export default {
           .catch((error) => {
             console.log(error);
 
+            this.apiError = true;
             reject(error);
           });
       });

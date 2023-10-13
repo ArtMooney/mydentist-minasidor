@@ -233,6 +233,8 @@ export default {
               auth: true,
               orderRef: collect.orderRef,
             });
+
+            sessionStorage.setItem("inloggad", true);
           }
         } else if (collect.status === "failed") {
           this.stopBankidCollect();
@@ -265,6 +267,8 @@ export default {
           auth: true,
           orderRef: collect.orderRef,
         });
+
+        sessionStorage.setItem("inloggad", true);
       } else {
         this.$emit("access", {
           auth: false,
