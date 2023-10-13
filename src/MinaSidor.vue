@@ -61,7 +61,7 @@
         <div
           class="time-block"
           @click="handleTimeblockRight(index)"
-          v-for="(entry, index) of listJournalEntries.data"
+          v-for="(entry, index) of listJournal.data"
           :key="index"
         >
           <div class="block-title">
@@ -82,10 +82,7 @@
           </div>
         </div>
 
-        <div
-          v-if="listJournalEntries.data.length === 0"
-          class="time-block-empty"
-        >
+        <div v-if="listJournal.data.length === 0" class="time-block-empty">
           Vi hittade ingen journal.
         </div>
       </div>
@@ -120,7 +117,7 @@ export default {
       getJournalBookings: "journal-bookings",
       userName: "XkehuCfMZ!hU%8h=",
       userPass: "QH5EV=2hNc*LFjJd",
-      listJournalEntries: [],
+      listJournal: { data: [] },
       listBookings: [],
       showItemLeft: false,
       showItemRight: false,
@@ -134,11 +131,16 @@ export default {
       this.apiBaseUrl + this.getJournalBookings + "?orderRef=" + this.orderRef
     );
 
-    this.listJournalEntries = journalBookings.data[0];
+    for (const item of journalBookings.data[0].data) {
+      if (item.attributes.entry_type !== "admin") {
+        this.listJournal.data.push(item);
+      }
+    }
+
     this.listBookings = journalBookings.data[1];
 
     // console.log("JOURNAL BOOKINGS", journalBookings);
-    // console.log("JOURNAL", JSON.parse(JSON.stringify(this.listJournalEntries)));
+    // console.log("JOURNAL", JSON.parse(JSON.stringify(this.listJournal)));
     // console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
 
     this.loadingFlag = false;
