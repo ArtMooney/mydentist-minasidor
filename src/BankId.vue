@@ -55,12 +55,14 @@
               id="personnummer"
               v-model="personNummer"
               @click="isLoginError = false"
+              @keyup.enter="isValidInput(personNummer) ? submitClick() : null"
             />
           </div>
 
           <input
             type="submit"
             value="Logga in"
+            ref="submitButton"
             data-wait="Var god vänta..."
             class="bankid-login w-button"
             @click="startBankId"
@@ -169,7 +171,7 @@ export default {
             resolve(result);
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
 
             reject(error);
           });
@@ -296,6 +298,10 @@ export default {
 
     switchLoginMode() {
       this.qrMode = !this.qrMode;
+    },
+
+    submitClick() {
+      this.$refs.submitButton.click();
     },
   },
 

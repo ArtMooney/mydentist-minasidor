@@ -10,66 +10,126 @@
       id="w-node-_5ef4a456-78ee-3356-a721-49f53fdd5c23-2190bb79"
       class="minasidor-wrapper"
     >
-      <h1
-        id="w-node-_7774ae3b-e687-287a-81f9-e752ccf6179e-2190bb79"
-        class="text-heading"
-      >
-        Aktuella bokningar
-      </h1>
-      <h1
-        id="w-node-_4bdeeea9-8aa6-fb9b-74fc-6d0ad61cef22-2190bb79"
-        class="text-heading"
-      >
-        Min journal
-      </h1>
-
-      <div class="times-wrapper">
-        <div
-          class="time-block"
-          @click="handleTimeblockLeft(index)"
-          v-for="(entry, index) of listBookings.data.slice(0, numberOfBookings)"
-          :key="index"
-        >
-          <div class="block-title">
-            {{ formattedDate(entry.attributes.dtend) }}
-          </div>
-          <minus
-            v-if="index === showItemLeft"
-            style="color: #9b1373"
-            class="time-block-icon"
-          />
-          <plus v-else style="color: #9b1373" class="time-block-icon" />
+      <div>
+        <div class="times-wrapper">
+          <h1
+            id="w-node-_7774ae3b-e687-287a-81f9-e752ccf6179e-2190bb79"
+            class="text-heading full"
+          >
+            Aktuella bokningar
+          </h1>
 
           <div
-            class="time-block-content-wrapper"
-            :class="{ active: index === showItemLeft }"
+            class="time-block"
+            @click="handleTimeblockLeft(index)"
+            v-for="(entry, index) of listBookings.data.slice(
+              0,
+              numberOfBookings
+            )"
+            :key="index"
           >
-            <div class="time-block-content">
-              Plats: {{ entry.attributes.location }} <br />
-              Pris: {{ entry.attributes.price }} <br />
-              Information: {{ entry.attributes.text }}
+            <div class="block-title">
+              {{ formattedDate(entry.attributes.dtend) }}
             </div>
+            <minus
+              v-if="index === showItemLeft"
+              style="color: #9b1373"
+              class="time-block-icon"
+            />
+            <plus v-else style="color: #9b1373" class="time-block-icon" />
+
+            <div
+              class="time-block-content-wrapper"
+              :class="{ active: index === showItemLeft }"
+            >
+              <div class="time-block-content">
+                Plats: {{ entry.attributes.location }} <br />
+                Information: {{ entry.attributes.text }}
+              </div>
+            </div>
+          </div>
+
+          <button
+            v-if="
+              listBookings.data.length !== 0 &&
+              !disableLoadMoreBookings &&
+              listBookings.data.length > numberOfBookings
+            "
+            @click="loadMoreBookings"
+            class="button-mina-sidor w-button"
+          >
+            Ladda fler
+          </button>
+
+          <div v-if="listBookings.data.length === 0" class="time-block-empty">
+            Vi hittade inga aktuella bokningar.
           </div>
         </div>
 
-        <button
-          v-if="
-            listBookings.data.length !== 0 &&
-            !disableLoadMoreBookings &&
-            listBookings.data.length > numberOfBookings
-          "
-          @click="loadMoreBookings"
-          class="button-mina-sidor w-button"
-        >
-          Ladda fler
-        </button>
+        <div class="times-wrapper">
+          <h1
+            id="w-node-_4bdeeea9-8aa6-fb9b-74fc-6d0ad61cef22-2190bb79"
+            class="text-heading fakturor"
+          >
+            Mina fakturor
+          </h1>
 
-        <div v-if="listBookings.data.length === 0" class="time-block-empty">
-          Vi hittade inga aktuella bokningar.
+          <div
+            class="time-block"
+            @click="handleTimeblockInvoices(index)"
+            v-for="(entry, index) of listInvoices.data.slice(
+              0,
+              numberOfInvoices
+            )"
+            :key="index"
+          >
+            <div class="block-title">
+              {{ formattedDate(entry.attributes.invoice_date) }}
+            </div>
+            <minus
+              v-if="index === showItemInvoices"
+              style="color: #9b1373"
+              class="time-block-icon"
+            />
+            <plus v-else style="color: #9b1373" class="time-block-icon" />
+            <div
+              class="time-block-content-wrapper"
+              :class="{ active: index === showItemInvoices }"
+            >
+              <div class="time-block-content">
+                Summa: {{ entry.attributes.amount.toFixed(2) }} kr<br />
+                Klinikens address:
+                {{ entry.attributes.organization_street_address_1 }}
+              </div>
+            </div>
+          </div>
+
+          <button
+            v-if="
+              listInvoices.data.length !== 0 &&
+              !disableLoadMoreInvoices &&
+              listInvoices.data.length > numberOfInvoices
+            "
+            @click="loadMoreInvoices"
+            class="button-mina-sidor w-button"
+          >
+            Ladda fler
+          </button>
+
+          <div v-if="listInvoices.data.length === 0" class="time-block-empty">
+            Vi hittade inga fakturor.
+          </div>
         </div>
       </div>
 
       <div class="times-wrapper">
+        <h1
+          id="w-node-_4bdeeea9-8aa6-fb9b-74fc-6d0ad61cef22-2190bb79"
+          class="text-heading"
+        >
+          Min journal
+        </h1>
+
         <div
           class="time-block"
           @click="handleTimeblockRight(index)"
@@ -147,16 +207,20 @@ export default {
       userPass: "QH5EV=2hNc*LFjJd",
       listJournal: { data: [] },
       listBookings: [],
+      listInvoices: { data: [] },
       showItemLeft: false,
       showItemRight: false,
+      showItemInvoices: false,
       loadingFlag: true,
       loading,
       apiError: false,
       apiErrorMessage: "Något gick fel under laddningen av er profil.",
       numberOfJournal: 10,
       disableLoadMoreJournal: false,
-      numberOfBookings: 10,
+      numberOfBookings: 5,
       disableLoadMoreBookings: false,
+      numberOfInvoices: 5,
+      disableLoadMoreInvoices: false,
     };
   },
 
@@ -165,6 +229,7 @@ export default {
       this.apiBaseUrl + this.getJournalBookings + "?orderRef=" + this.orderRef
     );
 
+    // filter out admin posts
     for (const item of journalBookings.data[0].data) {
       if (item.attributes.entry_type !== "admin") {
         this.listJournal.data.push(item);
@@ -173,9 +238,27 @@ export default {
 
     this.listBookings = journalBookings.data[1];
 
+    // filter out invoices and add information from clinic
+    for (const invoice of journalBookings.data[2].data) {
+      for (const item of journalBookings.data[2].included) {
+        if (item.type === "payment_per_invoice") {
+          for (const payment of invoice.relationships.payments_per_invoices
+            .data) {
+            if (item.id === payment.id) {
+              let data = item;
+              data.attributes = { ...data.attributes, ...invoice.attributes };
+              this.listInvoices.data.push(data);
+            }
+          }
+        }
+      }
+    }
+
     // console.log("JOURNAL BOOKINGS", journalBookings);
     // console.log("JOURNAL", JSON.parse(JSON.stringify(this.listJournal)));
     // console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
+    // console.log("INVOICES RAW", journalBookings.data[2]);
+    // console.log("INVOICES", JSON.parse(JSON.stringify(this.listInvoices)));
 
     this.loadingFlag = false;
   },
@@ -200,7 +283,7 @@ export default {
             resolve(result);
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
 
             this.apiError = true;
             reject(error);
@@ -230,6 +313,14 @@ export default {
       }
     },
 
+    handleTimeblockInvoices(index) {
+      if (this.showItemInvoices === index) {
+        this.showItemInvoices = false;
+      } else {
+        this.showItemInvoices = index;
+      }
+    },
+
     loadMoreJournal() {
       this.numberOfJournal += 10;
 
@@ -239,10 +330,18 @@ export default {
     },
 
     loadMoreBookings() {
-      this.numberOfBookings += 10;
+      this.numberOfBookings += 5;
 
       if (this.numberOfBookings >= parseInt(this.listBookings.data.length)) {
         this.disableLoadMoreBookings = true;
+      }
+    },
+
+    loadMoreInvoices() {
+      this.numberOfInvoices += 5;
+
+      if (this.numberOfInvoices >= parseInt(this.listInvoices.data.length)) {
+        this.disableLoadMoreInvoices = true;
       }
     },
   },
