@@ -29,7 +29,8 @@
             :key="index"
           >
             <div class="block-title">
-              {{ formattedDate(entry.attributes.dtend) }}
+              {{ formattedDate(entry.attributes.dtend) }} :
+              {{ entry.attributes.text }}
             </div>
             <minus
               v-if="index === showItemLeft"
@@ -84,7 +85,8 @@
             :key="index"
           >
             <div class="block-title">
-              {{ formattedDate(entry.attributes.invoice_date) }}
+              {{ formattedDate(entry.attributes.invoice_date) }} :
+              {{ entry.attributes.amount.toFixed(2) }} kr
             </div>
             <minus
               v-if="index === showItemInvoices"
@@ -239,26 +241,22 @@ export default {
     this.listBookings = journalBookings.data[1];
 
     // filter out invoices and add information from clinic
-    for (const invoice of journalBookings.data[2].data) {
-      for (const item of journalBookings.data[2].included) {
-        if (item.type === "payment_per_invoice") {
-          for (const payment of invoice.relationships.payments_per_invoices
-            .data) {
-            if (item.id === payment.id) {
-              let data = item;
-              data.attributes = { ...data.attributes, ...invoice.attributes };
-              this.listInvoices.data.push(data);
+    if (journalBookings.data[2]) {
+      for (const invoice of journalBookings.data[2].data) {
+        for (const item of journalBookings.data[2].included) {
+          if (item.type === "payment_per_invoice") {
+            for (const payment of invoice.relationships.payments_per_invoices
+              .data) {
+              if (item.id === payment.id) {
+                let data = item;
+                data.attributes = { ...data.attributes, ...invoice.attributes };
+                this.listInvoices.data.push(data);
+              }
             }
           }
         }
       }
     }
-
-    // console.log("JOURNAL BOOKINGS", journalBookings);
-    // console.log("JOURNAL", JSON.parse(JSON.stringify(this.listJournal)));
-    // console.log("BOOKINGS", JSON.parse(JSON.stringify(this.listBookings)));
-    // console.log("INVOICES RAW", journalBookings.data[2]);
-    // console.log("INVOICES", JSON.parse(JSON.stringify(this.listInvoices)));
 
     this.loadingFlag = false;
   },
@@ -365,7 +363,6 @@ export default {
 
 .button-mina-sidor {
   box-shadow: inset 0 -3px 0 -3px #e4e4e4;
-  transition: box-shadow 0.15s ease-in-out;
 }
 .button-mina-sidor:hover {
   box-shadow: inset 0 -50px 0 -3px #e4e4e4;
