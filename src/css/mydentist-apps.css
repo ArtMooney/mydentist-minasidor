@@ -194,6 +194,7 @@ a {
 
 .time-block {
   text-align: left;
+  cursor: pointer;
   background-color: #f1ebe6;
   border-radius: 12px;
   grid-template-rows: auto;
