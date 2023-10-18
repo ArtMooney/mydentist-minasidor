@@ -377,11 +377,4 @@ export default {
 .time-block-content {
   overflow: hidden;
 }
-
-.button-mina-sidor {
-  box-shadow: inset 0 -3px 0 -3px #e4e4e4;
-}
-.button-mina-sidor:hover {
-  box-shadow: inset 0 -50px 0 -3px #e4e4e4;
-}
 </style>

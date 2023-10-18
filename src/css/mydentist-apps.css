@@ -795,8 +795,7 @@ a {
   font-size: 1.063rem;
   font-weight: 700;
   line-height: 1.4rem;
-  transition: box-shadow 0.15s ease-in-out, border-color 0.2s, color 0.2s;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.2s, color 0.2s;
 }
 
 .button-mina-sidor:hover {
