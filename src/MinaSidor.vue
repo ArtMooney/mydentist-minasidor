@@ -21,7 +21,7 @@
 
           <div
             class="time-block"
-            @click="handleTimeblockLeft(index)"
+            @click="handleTimeblockBookings(index)"
             v-for="(entry, index) of listBookings.data.slice(
               0,
               numberOfBookings
@@ -146,7 +146,7 @@
 
         <div
           class="time-block"
-          @click="handleTimeblockRight(index)"
+          @click="handleTimeblockJournal(index)"
           v-for="(entry, index) of listJournal.data.slice(0, numberOfJournal)"
           :key="index"
         >
@@ -274,6 +274,7 @@ export default {
       }
     }
 
+    this.handleTimeblockBookings(0);
     this.loadingFlag = false;
   },
 
@@ -311,7 +312,7 @@ export default {
       return date.toLocaleDateString(undefined, options);
     },
 
-    handleTimeblockLeft(index) {
+    handleTimeblockBookings(index) {
       if (this.showItemBookings === index) {
         this.showItemBookings = false;
       } else {
@@ -319,7 +320,7 @@ export default {
       }
     },
 
-    handleTimeblockRight(index) {
+    handleTimeblockJournal(index) {
       if (this.showItemJournal === index) {
         this.showItemJournal = false;
       } else {
