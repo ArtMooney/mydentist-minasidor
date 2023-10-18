@@ -254,7 +254,10 @@ export default {
       }
     }
 
+    this.listJournal.data = this.sortList(this.listJournal.data);
+
     this.listBookings = journalBookings.data[1];
+    this.listBookings.data = this.sortList(this.listBookings.data);
 
     // filter out invoices and add information from clinic
     if (journalBookings.data[2]) {
@@ -273,6 +276,8 @@ export default {
         }
       }
     }
+
+    this.listInvoices.data = this.sortList(this.listInvoices.data);
 
     this.handleTimeblockBookings(0);
     this.loadingFlag = false;
@@ -358,6 +363,16 @@ export default {
       if (this.numberOfInvoices >= parseInt(this.listInvoices.data.length)) {
         this.disableLoadMoreInvoices = true;
       }
+    },
+
+    sortList(listData) {
+      listData.sort((a, b) => {
+        const dateA = new Date(a.attributes.invoice_date);
+        const dateB = new Date(b.attributes.invoice_date);
+        return dateB - dateA; // Descending order
+      });
+
+      return listData;
     },
   },
 };
