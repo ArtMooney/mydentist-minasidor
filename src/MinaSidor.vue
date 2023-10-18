@@ -28,12 +28,18 @@
             )"
             :key="index"
           >
-            <div class="block-title">
+            <div
+              :class="[
+                index === showItemBookings
+                  ? 'block-title hover'
+                  : 'block-title',
+              ]"
+            >
               {{ formattedDate(entry.attributes.dtend) }} :
               {{ entry.attributes.text }}
             </div>
             <minus
-              v-if="index === showItemLeft"
+              v-if="index === showItemBookings"
               style="color: #9b1373"
               class="time-block-icon"
             />
@@ -41,7 +47,7 @@
 
             <div
               class="time-block-content-wrapper"
-              :class="{ active: index === showItemLeft }"
+              :class="{ active: index === showItemBookings }"
             >
               <div class="time-block-content">
                 Plats: {{ entry.attributes.location }} <br />
@@ -84,7 +90,13 @@
             )"
             :key="index"
           >
-            <div class="block-title">
+            <div
+              :class="[
+                index === showItemInvoices
+                  ? 'block-title hover'
+                  : 'block-title',
+              ]"
+            >
               {{ formattedDate(entry.attributes.invoice_date) }} :
               {{ entry.attributes.amount.toFixed(2) }} kr
             </div>
@@ -138,19 +150,23 @@
           v-for="(entry, index) of listJournal.data.slice(0, numberOfJournal)"
           :key="index"
         >
-          <div class="block-title">
+          <div
+            :class="[
+              index === showItemJournal ? 'block-title hover' : 'block-title',
+            ]"
+          >
             {{ formattedDate(entry.attributes.signed_at) }} :
             {{ entry.attributes.entry_type }}
           </div>
           <minus
-            v-if="index === showItemRight"
+            v-if="index === showItemJournal"
             style="color: #9b1373"
             class="time-block-icon"
           />
           <plus v-else style="color: #9b1373" class="time-block-icon" />
           <div
             class="time-block-content-wrapper"
-            :class="{ active: index === showItemRight }"
+            :class="{ active: index === showItemJournal }"
           >
             <div class="time-block-content">{{ entry.attributes.text }}</div>
           </div>
@@ -210,8 +226,8 @@ export default {
       listJournal: { data: [] },
       listBookings: [],
       listInvoices: { data: [] },
-      showItemLeft: false,
-      showItemRight: false,
+      showItemBookings: false,
+      showItemJournal: false,
       showItemInvoices: false,
       loadingFlag: true,
       loading,
@@ -296,18 +312,18 @@ export default {
     },
 
     handleTimeblockLeft(index) {
-      if (this.showItemLeft === index) {
-        this.showItemLeft = false;
+      if (this.showItemBookings === index) {
+        this.showItemBookings = false;
       } else {
-        this.showItemLeft = index;
+        this.showItemBookings = index;
       }
     },
 
     handleTimeblockRight(index) {
-      if (this.showItemRight === index) {
-        this.showItemRight = false;
+      if (this.showItemJournal === index) {
+        this.showItemJournal = false;
       } else {
-        this.showItemRight = index;
+        this.showItemJournal = index;
       }
     },
 
