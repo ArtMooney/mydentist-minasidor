@@ -136,6 +136,8 @@ export default {
     this.modeInstructions = this.modeInstructionsQR;
     this.chooseMode = this.chooseModeDirect;
 
+    sessionStorage.removeItem("inloggad");
+
     if (/Mobi|Android/i.test(navigator.userAgent)) {
       // mobile device
       this.qrMode = false;
