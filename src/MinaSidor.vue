@@ -35,7 +35,7 @@
                   : 'block-title',
               ]"
             >
-              {{ formattedDate(entry.attributes.dtend) }} :
+              {{ formattedDateTime(entry.attributes.dtend) }} :
               {{ entry.attributes.text }}
             </div>
             <minus
@@ -315,6 +315,20 @@ export default {
       const date = new Date(dateString);
       const options = { year: "numeric", month: "long", day: "numeric" };
       return date.toLocaleDateString(undefined, options);
+    },
+
+    formattedDateTime(dateString) {
+      const date = new Date(dateString);
+      const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+      const timeOptions = {
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+
+      const formattedDate = date.toLocaleDateString(undefined, dateOptions);
+      const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
+
+      return `${formattedDate}, ${formattedTime}`;
     },
 
     handleTimeblockBookings(index) {
