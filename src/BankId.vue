@@ -136,8 +136,6 @@ export default {
     this.modeInstructions = this.modeInstructionsQR;
     this.chooseMode = this.chooseModeDirect;
 
-    sessionStorage.removeItem("inloggad");
-
     if (/Mobi|Android/i.test(navigator.userAgent)) {
       // mobile device
       this.qrMode = false;
@@ -151,6 +149,10 @@ export default {
     const res = await fetch("https://api.ipify.org?format=json");
     const ip = await res.json();
     this.ip = ip.ip;
+  },
+
+  mounted() {
+    this.showFaq();
   },
 
   methods: {
@@ -238,7 +240,7 @@ export default {
               orderRef: collect.orderRef,
             });
 
-            sessionStorage.setItem("inloggad", true);
+            this.hideFaq();
           }
         } else if (collect.status === "failed") {
           this.stopBankidCollect();
@@ -272,7 +274,7 @@ export default {
           orderRef: collect.orderRef,
         });
 
-        sessionStorage.setItem("inloggad", true);
+        this.hideFaq();
       } else {
         this.$emit("access", {
           auth: false,
@@ -304,6 +306,22 @@ export default {
 
     submitClick() {
       this.$refs.submitButton.click();
+    },
+
+    showFaq() {
+      const faqSection = document.getElementsByClassName("inloggad");
+
+      for (const element of faqSection) {
+        element.style.display = "block";
+      }
+    },
+
+    hideFaq() {
+      const faqSection = document.getElementsByClassName("inloggad");
+
+      for (const element of faqSection) {
+        element.style.display = "none";
+      }
     },
   },
 
