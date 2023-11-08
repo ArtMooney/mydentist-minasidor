@@ -309,17 +309,27 @@ export default {
     },
 
     showFaq() {
-      const faqSection = document.getElementsByClassName("ej-inloggad");
+      const inloggad = document.getElementsByClassName("inloggad");
+      const ejInloggad = document.getElementsByClassName("ej-inloggad");
 
-      for (const element of faqSection) {
+      for (const element of inloggad) {
+        element.style.display = "none";
+      }
+
+      for (const element of ejInloggad) {
         element.style.display = "block";
       }
     },
 
     hideFaq() {
-      const faqSection = document.getElementsByClassName("ej-inloggad");
+      const inloggad = document.getElementsByClassName("inloggad");
+      const ejInloggad = document.getElementsByClassName("ej-inloggad");
 
-      for (const element of faqSection) {
+      for (const element of inloggad) {
+        element.style.display = "block";
+      }
+
+      for (const element of ejInloggad) {
         element.style.display = "none";
       }
     },
