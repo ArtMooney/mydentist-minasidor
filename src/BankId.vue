@@ -309,7 +309,7 @@ export default {
     },
 
     showFaq() {
-      const faqSection = document.getElementsByClassName("inloggad");
+      const faqSection = document.getElementsByClassName("ej-inloggad");
 
       for (const element of faqSection) {
         element.style.display = "block";
@@ -317,7 +317,7 @@ export default {
     },
 
     hideFaq() {
-      const faqSection = document.getElementsByClassName("inloggad");
+      const faqSection = document.getElementsByClassName("ej-inloggad");
 
       for (const element of faqSection) {
         element.style.display = "none";
