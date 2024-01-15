@@ -35,7 +35,7 @@
                   : 'block-title',
               ]"
             >
-              {{ formattedDateTime(entry.attributes.dtend) }} :
+              {{ formattedDateTime(entry.attributes.dtstart, entry.attributes.dtend) }} :
               {{ entry.attributes.text }}
             </div>
             <minus
@@ -255,7 +255,6 @@ export default {
     }
 
     this.listJournal.data = this.sortList(this.listJournal.data);
-
     this.listBookings = journalBookings.data[1];
     this.listBookings.data = this.sortList(this.listBookings.data);
 
@@ -313,13 +312,14 @@ export default {
 
     formattedDate(dateString) {
       const date = new Date(dateString);
-      const options = { year: "numeric", month: "long", day: "numeric" };
+      const options = { year: "numeric", month: "short", day: "numeric" };
       return date.toLocaleDateString(undefined, options);
     },
 
-    formattedDateTime(dateString) {
+    formattedDateTime(dateString, dateStringEnd) {
       const date = new Date(dateString);
-      const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+      const dateEnd = new Date(dateStringEnd);
+      const dateOptions = { year: "numeric", month: "short", day: "numeric" };
       const timeOptions = {
         hour: "2-digit",
         minute: "2-digit",
@@ -327,8 +327,9 @@ export default {
 
       const formattedDate = date.toLocaleDateString(undefined, dateOptions);
       const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
+      const formattedTimeEnd = dateEnd.toLocaleTimeString(undefined, timeOptions);
 
-      return `${formattedDate}, ${formattedTime}`;
+      return `${formattedDate}, ${formattedTime} - ${formattedTimeEnd}`;
     },
 
     handleTimeblockBookings(index) {
